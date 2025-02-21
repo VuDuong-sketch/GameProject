@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <iostream>
-#include <conio.h>
 
 using namespace std;
 
