@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL2/SDL_image.h>
+
 using namespace std;
 
 const int SCREEN_WIDTH = 800;
