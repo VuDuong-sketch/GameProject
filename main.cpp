@@ -1,7 +1,6 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-
 using namespace std;
 
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer);
