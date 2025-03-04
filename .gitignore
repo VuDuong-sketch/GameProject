@@ -5,3 +5,5 @@
 *.dll
 *.o
 *.out
+*.jpg
+*.png
