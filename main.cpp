@@ -9,21 +9,39 @@ void quitSDL(SDL_Window* winow, SDL_Renderer* renderer);
 
 void waitUntilPressed();
 
+void renderTexture(SDL_Texture *texture, int x, int y, SDL_Renderer* renderer);
+
+SDL_Texture* loadTexture(const char* filename, SDL_Renderer* renderer);
+
 int main(int argc, char* argv[]){
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	initSDL(window, renderer);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	
-	SDL_RenderDrawLine(renderer, 0, 0, 300, 300);
+	SDL_Texture* background = IMG_LoadTexture(renderer, "bikiniBottom.jpg");
+    SDL_RenderCopy( renderer, background, NULL, NULL);
 
-	SDL_RenderPresent(renderer);
+    SDL_RenderPresent ( renderer );
+    waitUntilPressed();
+
+    SDL_Texture* spongeBob = IMG_LoadTexture(renderer, "spongeBob.png");
+    renderTexture(spongeBob, 200, 200, renderer);
+
+    SDL_RenderPresent ( renderer );
+    waitUntilPressed();
+    
+    
+
+    SDL_DestroyTexture( spongeBob );
+    spongeBob = NULL;
+    SDL_DestroyTexture( background );
+    background = NULL;
 	
-	waitUntilPressed();
 	quitSDL(window, renderer);
 	return 0;
 }
+
+
 
 
 
