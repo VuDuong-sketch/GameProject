@@ -21,9 +21,9 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer){
 
 void waitUntilPressed(){
 	SDL_Event e;
-	for(;;){
-		if(SDL_WaitEvent(&e) != 0 && (e.type == SDL_KEYDOWN || e.type == SDL_QUIT))
-			return;	
+	while(true){
+		if(SDL_WaitEvent(&e) != 0 && 
+		(e.type == SDL_KEYDOWN || e.type == SDL_QUIT)) return;
 	}
 }
 
@@ -47,4 +47,22 @@ SDL_Texture* loadTexture(const char* filename, SDL_Renderer* renderer){
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Load texture %s", IMG_GetError());
 
 	return texture;
+}
+
+void move () {
+	bool quit = false;
+    SDL_Event event;
+	while (!quit) {
+        //Handle events on queue
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) quit = true;
+        }
+
+        const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+
+        if (currentKeyStates[SDL_SCANCODE_UP] ) break;
+        if (currentKeyStates[SDL_SCANCODE_DOWN] ) break;
+        if (currentKeyStates[SDL_SCANCODE_LEFT] ) break;
+        if (currentKeyStates[SDL_SCANCODE_RIGHT] ) break;
+    }
 }
