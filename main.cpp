@@ -8,12 +8,6 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 void waitUntilPressed();
 
-void renderTexture(SDL_Texture *texture, int x, int y, SDL_Renderer* renderer);
-
-SDL_Texture* loadTexture(const char* filename, SDL_Renderer* renderer);
-
-void move();
-
 int main(int argc, char* argv[]){
 	char c; cin >> c;
 	if(c != 'y') return 0;
