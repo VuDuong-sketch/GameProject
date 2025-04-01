@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SDL.h>
+
 using namespace std;
+
 
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer);
 
@@ -8,40 +10,27 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 void waitUntilPressed();
 
-int main(int argc, char* argv[]){
-	char c; cin >> c;
-	if(c != 'y') return 0;
-	cout << "Hello World!";
+void moveGame(const string& path);
+
+
+int main(int argc, char* argv[]) {
 	
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	SDL_Renderer* renderer1;
-
-	initSDL(window, renderer);
-    
-    bool quit = false;
-    SDL_Event event;
-	while (!quit) {
-        //Handle events on queue
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) quit = true;
-        }
-
-        const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-
-        if (currentKeyStates[SDL_SCANCODE_UP] ){
-        	break;
-		}
-        	
-        if (currentKeyStates[SDL_SCANCODE_DOWN] ){
-        	break;
-		}
-        if (currentKeyStates[SDL_SCANCODE_LEFT] ) break;
-        if (currentKeyStates[SDL_SCANCODE_RIGHT] ) break;
-    }
-    
-
+	string path, level;
+	bool flag;
 	
-	quitSDL(window, renderer);
+	do {
+		path = "E:/Sketch/map/level";
+		cout << "Chon man: ";
+		cin >> level;
+		path += level;
+		path += ".txt";
+		
+		moveGame(path);
+		
+		cout << "Ban co muon choi tiep? (1 or 0) : ";
+		cin >> flag;
+	} while( flag );
+	
 	return 0;
 }
+
