@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	bool flag;
 	
 	do {
-		path = "E:/Sketch/map/level";
+		path = "E:/GameProject/map/level";
 		cout << "Chon man: ";
 		cin >> level;
 		path += level;
