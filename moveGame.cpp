@@ -1,7 +1,6 @@
 #include <iostream>
 #include <SDL.h>
 #include <cmath>
-#include <string>
 #include <fstream>
 
 using namespace std;
@@ -17,6 +16,23 @@ int m, n;
 SDL_Event e;
 bool flag;
 const int K = 100;
+
+int convert(string s) {
+    int sm = 0, sc;
+    if(s[0] == '-') {
+    	for(int i = 1; s[i] != '\0'; i++) {
+        	sc = int(s[i]) - 48;
+        	sm = sm * 10 + sc;
+    	}
+    	return -sm;
+	}
+    
+    for(int i = 0; s[i] != '\0'; i++) {
+        sc = int(s[i]) - 48;
+        sm = sm * 10 + sc;
+    }
+    return sm;
+}
 
 int foo(string s, int n) {
 	string number;
@@ -34,7 +50,7 @@ int foo(string s, int n) {
 	for(int i = index; s[i] != ' '; i++) {
 		number += s[i];
 	}
-	num = stoi(number);
+	num = convert(number);
 	return num;
 }
 
@@ -183,7 +199,6 @@ void moveGame(const string& path) {
 	m = 600 / K;
 	n = 800 / K;
 	
-	//xay map
 	for(int i = 0; i < m + 2; i++) {
 		for(int j = 0; j < n + 2; j++) {
 			if(i == 0 || i == m + 1 || j == 0 || j == n + 1) {
@@ -221,13 +236,12 @@ void moveGame(const string& path) {
 		a[i][j] = c;
 	}
 	
+	
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	initSDL(window, renderer);
 	
 	
-	
-	//printArr();
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
 			if( a[i][j] == char(15) ) {
@@ -250,26 +264,31 @@ void moveGame(const string& path) {
 	}
 	SDL_RenderPresent(renderer);
 	
+	
 	while( SDL_WaitEvent(&e) ) {
 		
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int i = 1; i <= m; i++) {
-			for(int j = 1; j <= n; j++) {
-				if( a[i][j] != ' ' && a[i][j] != char(219) ) {
-					ChuNhatDac(renderer, j, i);
-				}
-			}
-		}
+		
 		
 		if( e.type == SDL_KEYDOWN ) {
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+			for(int i = 1; i <= m; i++) {
+				for(int j = 1; j <= n; j++) {
+					if( a[i][j] != ' ' && a[i][j] != char(219) ) {
+						ChuNhatDac(renderer, j, i);
+					}	
+				}	
+			}
+			
 			Move();
 		}
-		if( e.type == SDL_QUIT ){
+		
+		else if( e.type == SDL_QUIT ) {
 			cout << "Game Over !" << endl;
 			break;
 		}
-		//printArr();
-		//draw and present
+		
+		else continue;
+		
 		
 		
 		for(int i = 1; i <= m; i++) {
@@ -290,7 +309,6 @@ void moveGame(const string& path) {
 		}
 		 		
 		SDL_RenderPresent(renderer);
-
 	}
 	
 	quitSDL(window, renderer);
