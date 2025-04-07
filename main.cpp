@@ -31,6 +31,8 @@ int main(int argc, char* argv[]) {
 		cin >> flag;
 	} while( flag );
 	
+	cout << "Game Over!";
+	
 	return 0;
 }
 

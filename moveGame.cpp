@@ -14,7 +14,6 @@ void waitUntilPressed();
 char a[100][100], x[100][100];
 int m, n;
 SDL_Event e;
-bool flag;
 const int K = 100;
 
 int convert(string s) {
@@ -198,6 +197,7 @@ void moveGame(const string& path) {
 	
 	m = 600 / K;
 	n = 800 / K;
+	bool win = true;
 	
 	for(int i = 0; i < m + 2; i++) {
 		for(int j = 0; j < n + 2; j++) {
@@ -214,7 +214,7 @@ void moveGame(const string& path) {
 	
 	ifstream file(path);
 		
-	while(true) {
+	while( true ) {
 		int i, j, c;
 		string line;
 		getline(file, line);
@@ -290,6 +290,8 @@ void moveGame(const string& path) {
 			
 		Move();
 		
+		
+		
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
 				if( a[i][j] == char(15) ) {
@@ -308,7 +310,21 @@ void moveGame(const string& path) {
 		}
 		 		
 		SDL_RenderPresent(renderer);
+		
+		win = true;
+		for(int i = 1; i <= m; i++) {
+			for(int j = 1; j <= n; j++) {
+				if( ( a[i][j] == 'b' && x[i][j] != 'x' ) || ( a[i][j] != 'b' && x[i][j] == 'x' ) ) {
+					win = false;
+				}
+				if( !win ) break;
+			}
+			if( !win ) break;
+		}
+		if( win ) break;
 	}
+	
+	if( win ) cout << "You Win!" << endl;
 	
 	quitSDL(window, renderer);
 	return;
