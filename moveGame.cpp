@@ -269,18 +269,7 @@ void moveGame(const string& path) {
 		
 		
 		
-		if( e.type == SDL_KEYDOWN ) {
-			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-			for(int i = 1; i <= m; i++) {
-				for(int j = 1; j <= n; j++) {
-					if( a[i][j] != ' ' && a[i][j] != char(219) ) {
-						ChuNhatDac(renderer, j, i);
-					}	
-				}	
-			}
-			
-			Move();
-		}
+		if( e.type == SDL_KEYDOWN );
 		
 		else if( e.type == SDL_QUIT ) {
 			cout << "Game Over !" << endl;
@@ -290,6 +279,16 @@ void moveGame(const string& path) {
 		else continue;
 		
 		
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		for(int i = 1; i <= m; i++) {
+			for(int j = 1; j <= n; j++) {
+				if( a[i][j] != ' ' && a[i][j] != char(219) ) {
+					ChuNhatDac(renderer, j, i);
+				}	
+			}	
+		}
+			
+		Move();
 		
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
