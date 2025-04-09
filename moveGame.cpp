@@ -16,62 +16,21 @@ int m, n;
 SDL_Event e;
 const int K = 100;
 
-int convert(string s) {
-    int sm = 0, sc;
-    if(s[0] == '-') {
-    	for(int i = 1; s[i] != '\0'; i++) {
-        	sc = int(s[i]) - 48;
-        	sm = sm * 10 + sc;
-    	}
-    	return -sm;
-	}
-    
-    for(int i = 0; s[i] != '\0'; i++) {
-        sc = int(s[i]) - 48;
-        sm = sm * 10 + sc;
-    }
-    return sm;
-}
+int convert(string s);
 
-int foo(string s, int n) {
-	string number;
-	n--;
-	int index = 0, count = 0, num;
-	for(int i = 0;; i++) {
-		if( count == n ) {
-			break;
-		}
-		if( s[i] == ' ' ) {
-			count++;
-		}
-		index++;
-	}
-	for(int i = index; s[i] != ' '; i++) {
-		number += s[i];
-	}
-	num = convert(number);
-	return num;
-}
+int number_in_string(string s, int n);
 
-struct coordinates {
+struct Point {
 	int x, y;
-	coordinates(int b, int a) {
+	Point(int b, int a) {
 		x = a;
 		y = b;
 	}
 };
 
-coordinates M(1,1);
+Point M(1,1);
 
-void printArr() {
-	for(int i = 0; i < m + 2; i++) {
-		for(int j = 0; j < n + 2; j++) {
-			cout << a[i][j];
-		}
-		cout << endl;
-	}
-	cout << endl;
-}
+void printArr(char* arr[], int m, int n);
 
 void Move() {
 	if( e.key.keysym.sym == SDLK_UP ) {
@@ -164,214 +123,15 @@ void Move() {
 	}
 }
 
-void ChuNhatDac(SDL_Renderer* renderer, int a, int b) {
-	
-	int x1 = (a - 1) * K,
-		y1 = (b - 1) * K,
-		x2 = a * K - 1,
-		y2 = b * K - 1;
-	
-	
-	for(int i = y1; i <= y2; i++) {
-		for(int j = x1; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-}
+void ChuNhatDac(SDL_Renderer* renderer, int a, int b);
 
-void Tuong(SDL_Renderer* renderer, int a, int b) {
-	
-	int x1 = (a - 1) * K,
-		y1 = (b - 1) * K,
-		x2 = a * K - 1,
-		y2 = b * K - 1;
-	
-	
-	for(int i = y1; i <= y1 + 20; i++) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1; j <= x1 + 3; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 4; j <= x1 + 49; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1 + 50; j <= x1 + 53; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 54; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int i = y1 + 21; i <= y1 + 24; i++) {
-		for(int j = x1; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	for(int i = y1 + 25; i <= y1 + 45; i++) {
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1; j <= x1 + 24; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1 + 25; j <= x1 + 28; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 29; j <= x1 + 74; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1 + 75; j <= x1 + 78; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 79; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int i = y1 + 46; i <= y1 + 49; i++) {
-		for(int j = x1; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	for(int i = y1 + 50; i <= y1 + 70; i++) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1; j <= x1 + 3; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 4; j <= x1 + 49; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1 + 50; j <= x1 + 53; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 54; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int i = y1 + 71; i <= y1 + 74; i++) {
-		for(int j = x1; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	for(int i = y1 + 75; i <= y1 + 95; i++) {
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1; j <= x1 + 24; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1 + 25; j <= x1 + 28; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 29; j <= x1 + 74; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int j = x1 + 75; j <= x1 + 78; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-		for(int j = x1 + 79; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int i = y1 + 96; i <= y1 + 99; i++) {
-		for(int j = x1; j <= x2; j++) {
-			SDL_RenderDrawPoint(renderer, j, i);
-		}
-	}
-}
+void Tuong(SDL_Renderer* renderer, int a, int b);
 
-void ChuX (SDL_Renderer* renderer, int a, int b) {
-	int x1 = (a - 1) * K,
-		y1 = (b - 1) * K,
-		x2 = a * K - 1,
-		y2 = b * K - 1;
-	
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int i = y1, j = x1 - k; j <= x2; i++, j++) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-		else {
-			for(int i = y1 + k, j = x1;  i <= y2; i++, j++) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-	}
-	
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int i = y1 - k, j = x2; i <= y2; i++, j--) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-		else {
-			for(int i = y1, j = x2 - k; j >= x1; i++, j--) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-	}
-}
+void ChuX (SDL_Renderer* renderer, int a, int b);
 
-void Box (SDL_Renderer* renderer, int a, int b) {
-	int x1 = (a - 1) * K,
-		y1 = (b - 1) * K,
-		x2 = a * K - 1,
-		y2 = b * K - 1;
-		
-	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
-	ChuNhatDac(renderer, a, b);
-	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int i = y1, j = x1 - k; j <= x2; i++, j++) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-		else {
-			for(int i = y1 + k, j = x1;  i <= y2; i++, j++) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-	}
-	
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int i = y1 - k, j = x2; i <= y2; i++, j--) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-		else {
-			for(int i = y1, j = x2 - k; j >= x1; i++, j--) {
-				SDL_RenderDrawPoint(renderer, j, i);
-			}
-		}
-	}
-}
+void Box (SDL_Renderer* renderer, int a, int b);
 
-void moveGame(const string& path) {
+void Sokoban_Game(const string& path) {
 	
 	m = 600 / K;
 	n = 800 / K;
@@ -397,9 +157,9 @@ void moveGame(const string& path) {
 		string line;
 		getline(file, line);
 		
-		i = foo(line, 1);
-		j = foo(line, 2);
-		c = foo(line, 3);
+		i = number_in_string(line, 1);
+		j = number_in_string(line, 2);
+		c = number_in_string(line, 3);
 		
 		
 		if( c == -1 ) break;
