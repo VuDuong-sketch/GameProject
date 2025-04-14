@@ -12,29 +12,11 @@ void waitUntilPressed();
 
 void Sokoban_Game( const string& path, SDL_Window* window, SDL_Renderer* renderer );
 
+void run();
 
 int main(int argc, char* argv[]) {
 	
-	string path, level;
-	bool flag;
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	
-	
-	do {
-		path = "E:/GameProject/map/level";
-		cout << "Chon man: ";
-		cin >> level;
-		path += level;
-		path += ".txt";
-		
-		Sokoban_Game(path, window, renderer);
-		
-		cout << "Ban co muon choi tiep? (1 or 0) : ";
-		cin >> flag;
-	} while( flag );
-	
-	cout << "Game Over!";
+	run();
 	
 	return 0;
 }

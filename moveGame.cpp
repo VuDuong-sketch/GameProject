@@ -133,6 +133,13 @@ void Box (SDL_Renderer* renderer, int a, int b);
 
 void Sokoban_Game( const string& path, SDL_Window* window, SDL_Renderer* renderer ) {
 	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int y = 0; y < 600; y++) {
+		for(int x = 0; x < 800; x++) {
+			SDL_RenderDrawPoint( renderer, x, y );
+		}
+	}
+	
 	m = 600 / K;
 	n = 800 / K;
 	bool win = true;
@@ -173,9 +180,6 @@ void Sokoban_Game( const string& path, SDL_Window* window, SDL_Renderer* rendere
 		}
 		a[i][j] = c;
 	}
-	
-	
-	initSDL(window, renderer);
 	
 	
 	
@@ -258,6 +262,40 @@ void Sokoban_Game( const string& path, SDL_Window* window, SDL_Renderer* rendere
 	
 	if( win ) cout << "You Win!" << endl;
 	
-	quitSDL(window, renderer);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	for(int i = 0; i < 600; i++) {
+		for(int j = 0; j < 800; j++) {
+			SDL_RenderDrawPoint( renderer, j, i );
+		}
+	}
+	SDL_RenderPresent(renderer);
 	return;
+}
+
+void run() {
+	string path, level;
+	bool flag;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	initSDL(window, renderer);
+	
+	do {
+		path = "E:/GameProject/map/level1.txt";
+		
+		while( SDL_WaitEvent(&e) ) {
+			if( e.type == SDL_MOUSEBUTTONDOWN ) {
+				cout << 1;
+				Sokoban_Game(path, window, renderer);
+				break;
+			}
+		}
+		
+		
+		
+		
+	} while( true );
+	
+	cout << "Game Over!";
+	quitSDL( window, renderer );
+	
 }
