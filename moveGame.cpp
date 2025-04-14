@@ -131,7 +131,7 @@ void ChuX (SDL_Renderer* renderer, int a, int b);
 
 void Box (SDL_Renderer* renderer, int a, int b);
 
-void Sokoban_Game(const string& path) {
+void Sokoban_Game( const string& path, SDL_Window* window, SDL_Renderer* renderer ) {
 	
 	m = 600 / K;
 	n = 800 / K;
@@ -175,9 +175,8 @@ void Sokoban_Game(const string& path) {
 	}
 	
 	
-	SDL_Window* window;
-	SDL_Renderer* renderer;
 	initSDL(window, renderer);
+	
 	
 	
 	for(int i = 1; i <= m; i++) {

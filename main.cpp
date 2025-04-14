@@ -10,13 +10,16 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 void waitUntilPressed();
 
-void Sokoban_Game(const string& path);
+void Sokoban_Game( const string& path, SDL_Window* window, SDL_Renderer* renderer );
 
 
 int main(int argc, char* argv[]) {
 	
 	string path, level;
 	bool flag;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	
 	
 	do {
 		path = "E:/GameProject/map/level";
@@ -25,7 +28,7 @@ int main(int argc, char* argv[]) {
 		path += level;
 		path += ".txt";
 		
-		Sokoban_Game(path);
+		Sokoban_Game(path, window, renderer);
 		
 		cout << "Ban co muon choi tiep? (1 or 0) : ";
 		cin >> flag;
