@@ -168,8 +168,6 @@ void Sokoban_Game ( int level ) {
 		j = number_in_string(line, 2);
 		c = number_in_string(line, 3);
 		
-		
-		if( c == -1 ) break;
 		if( c == 120 ) {
 			x[i][j] = c;
 			continue;
