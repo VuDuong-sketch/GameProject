@@ -1,8 +1,6 @@
-#include <iostream>
-
 void run ();
 
-int main(int argc, char* argv[]) {
+int main() {
 	
 	run();
 	

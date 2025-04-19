@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -14,41 +15,41 @@ void printArr(char* arr[], int m, int n) {
 	cout << endl;
 }
 
-int convert(string s) {
+int string_to_int (string s) {
     int sm = 0, sc;
-    if(s[0] == '-') {
-    	for(int i = 1; s[i] != '\0'; i++) {
-        	sc = int(s[i]) - 48;
-        	sm = sm * 10 + sc;
-    	}
-    	return -sm;
-	}
     
-    for(int i = 0; s[i] != '\0'; i++) {
+    for(int i = ( s[0] == '-' ? 1 : 0 ); s[i] != '\0'; i++) {
         sc = int(s[i]) - 48;
         sm = sm * 10 + sc;
     }
+    if( s[0] == '-' ) sm *= -1;
     return sm;
 }
 
-int number_in_string(string s, int n) {
-	string number;
-	n--;
-	int index = 0, count = 0, num;
-	for(int i = 0;; i++) {
-		if( count == n ) {
-			break;
-		}
+
+
+vector<int> string_to_vector ( string s ) {
+	vector<int> v;
+	if( s == "" ) return v;
+	string num;
+	for(int i = 0; s[i] != '\0'; i++) {
 		if( s[i] == ' ' ) {
-			count++;
+			int val = string_to_int( num );
+			v.push_back(val);
+			num = "";
+			continue;
 		}
-		index++;
+		num += s[i];
 	}
-	for(int i = index; s[i] != ' '; i++) {
-		number += s[i];
-	}
-	num = convert(number);
-	return num;
+	v.push_back(string_to_int( num ));
+	return v;
+}
+
+int number_in_string ( string s, int k) {
+	int index = --k;
+	vector<int> v = string_to_vector(s);
+	if( index < v.size() ) return v[index];
+	return -1;
 }
 
 bool ToaDo ( int a, int b, int x, int y ) {
