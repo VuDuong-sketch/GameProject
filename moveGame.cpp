@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <cmath>
-#include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -18,8 +18,6 @@ const int K = 100;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
-
-int convert(string s);
 
 int number_in_string(string s, int n);
 
@@ -136,6 +134,8 @@ void Box (SDL_Renderer* renderer, int a, int b);
 
 void refresh ( SDL_Renderer* renderer );
 
+vector<string> Level ( int level );
+
 void Sokoban_Game ( int level ) {
 	
 	
@@ -157,26 +157,12 @@ void Sokoban_Game ( int level ) {
 	}
 	
 	
-	ifstream file;
+	vector<string> v = Level(level);
+	int size = v.size();
 	
-	if( level == 1 ) {
-		file.open("E:/GameProject/map/level1.txt");
-	}
-	if( level == 2 ) {
-		file.open("E:/GameProject/map/level2.txt");
-	}
-	if( level == 3 ) {
-		file.open("E:/GameProject/map/level3.txt");
-	}
-	if( level == 4 ) {
-		file.open("E:/GameProject/map/level4.txt");
-	}
-	
-	
-	while( true ) {
+	for(int iter = 0; iter < size; iter++) {
 		int i, j, c;
-		string line;
-		getline(file, line);
+		string line = v[iter];
 		
 		i = number_in_string(line, 1);
 		j = number_in_string(line, 2);
