@@ -233,3 +233,12 @@ void Box (SDL_Renderer* renderer, int a, int b) {
 		}
 	}
 }
+
+void refresh ( SDL_Renderer* renderer ) {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int i = 0; i < 600; i++) {
+		for(int j = 0; j < 800; j++) {
+			SDL_RenderDrawPoint(renderer, j, i);
+		}
+	}
+}

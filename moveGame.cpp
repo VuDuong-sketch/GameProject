@@ -16,6 +16,9 @@ int m, n;
 SDL_Event e;
 const int K = 100;
 
+SDL_Window* window;
+SDL_Renderer* renderer;
+
 int convert(string s);
 
 int number_in_string(string s, int n);
@@ -30,7 +33,7 @@ struct Point {
 
 Point M(1,1);
 
-void printArr(char* arr[], int m, int n);
+
 
 void Move() {
 	if( e.key.keysym.sym == SDLK_UP ) {
@@ -131,12 +134,14 @@ void ChuX (SDL_Renderer* renderer, int a, int b);
 
 void Box (SDL_Renderer* renderer, int a, int b);
 
-void Sokoban_Game( const string& path ) {
+void refresh ( SDL_Renderer* renderer );
+
+void Sokoban_Game ( int level ) {
 	
 	
 	m = 600 / K;
 	n = 800 / K;
-	bool win = true;
+	bool win = false;
 	
 	for(int i = 0; i < m + 2; i++) {
 		for(int j = 0; j < n + 2; j++) {
@@ -151,8 +156,23 @@ void Sokoban_Game( const string& path ) {
 		}
 	}
 	
-	ifstream file(path);
-		
+	
+	ifstream file;
+	
+	if( level == 1 ) {
+		file.open("E:/GameProject/map/level1.txt");
+	}
+	if( level == 2 ) {
+		file.open("E:/GameProject/map/level2.txt");
+	}
+	if( level == 3 ) {
+		file.open("E:/GameProject/map/level3.txt");
+	}
+	if( level == 4 ) {
+		file.open("E:/GameProject/map/level4.txt");
+	}
+	
+	
 	while( true ) {
 		int i, j, c;
 		string line;
@@ -175,9 +195,7 @@ void Sokoban_Game( const string& path ) {
 		a[i][j] = c;
 	}
 	
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	initSDL(window, renderer);
+	refresh(renderer);
 	
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
@@ -257,7 +275,64 @@ void Sokoban_Game( const string& path ) {
 	}
 	
 	if( win ) cout << "You Win!" << endl;
-	
-	quitSDL(window, renderer);
-	return;
 }
+
+void Draw_Menu () {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 2, 2);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 2, 4);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 4, 2);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 4, 4);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 8, 1);
+}
+
+bool ToaDo ( int a, int b, int x, int y );
+
+void run () {
+	
+	initSDL(window, renderer);
+	
+	do {
+		refresh(renderer);
+		Draw_Menu();
+		SDL_RenderPresent(renderer);
+		
+		while ( SDL_WaitEvent(&e) ) {
+			if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
+				if( ToaDo(2, 2, e.button.x, e.button.y) ) {
+					Sokoban_Game(1);
+					break;
+				}
+				if( ToaDo(4, 2, e.button.x, e.button.y) ) {
+					Sokoban_Game(2);
+					break;
+				}
+				if( ToaDo(2, 4, e.button.x, e.button.y) ) {
+					Sokoban_Game(3);
+					break;
+				}
+				if( ToaDo(4, 4, e.button.x, e.button.y) ) {
+					Sokoban_Game(4);
+					break;
+				}
+				if( ToaDo(8, 1, e.button.x, e.button.y)) {
+					quitSDL(window, renderer);
+					return;
+				}
+			}
+		}
+		
+	} while( true );
+	
+}
+
+
+
+
+
+
+

@@ -2,6 +2,8 @@
 
 using namespace std;
 
+const int K = 100;
+
 void printArr(char* arr[], int m, int n) {
 	for(int i = 0; i < m + 2; i++) {
 		for(int j = 0; j < n + 2; j++) {
@@ -47,4 +49,13 @@ int number_in_string(string s, int n) {
 	}
 	num = convert(number);
 	return num;
+}
+
+bool ToaDo ( int a, int b, int x, int y ) {
+	int x1 = (a - 1) * K,
+		y1 = (b - 1) * K,
+		x2 = a * K - 1,
+		y2 = b * K - 1;
+		
+	return ( x1 <= x && x <= x2 && y1 <= y && y <= y2 );
 }
