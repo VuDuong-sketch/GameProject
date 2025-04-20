@@ -11,6 +11,8 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 void waitUntilPressed();
 
+bool ToaDo ( int a, int b, int x, int y );
+
 char a[100][100], x[100][100];
 int m, n;
 SDL_Event e;
@@ -136,6 +138,32 @@ void refresh ( SDL_Renderer* renderer );
 
 vector<string> Level ( int level );
 
+void Build_Map () {
+	refresh(renderer);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 8, 1);
+	
+	
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( a[i][j] == char(15) ) {
+				SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
+				ChuNhatDac(renderer, j, i);
+			}
+			if( a[i][j] == 'b' ) {
+				Box(renderer, j, i);
+			}
+			if( a[i][j] == char(219) ) {
+				Tuong(renderer, j, i);
+			}
+			if( x[i][j] == 'x' ) {
+				ChuX(renderer, j, i);
+			}
+		}
+	}
+	SDL_RenderPresent(renderer);
+}
+
 void Sokoban_Game ( int level ) {
 	
 	
@@ -179,26 +207,7 @@ void Sokoban_Game ( int level ) {
 		a[i][j] = c;
 	}
 	
-	refresh(renderer);
-	
-	for(int i = 1; i <= m; i++) {
-		for(int j = 1; j <= n; j++) {
-			if( a[i][j] == char(15) ) {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
-				ChuNhatDac(renderer, j, i);
-			}
-			if( a[i][j] == 'b' ) {
-				Box(renderer, j, i);
-			}
-			if( a[i][j] == char(219) ) {
-				Tuong(renderer, j, i);
-			}
-			if( x[i][j] == 'x' ) {
-				ChuX(renderer, j, i);
-			}
-		}
-	}
-	SDL_RenderPresent(renderer);
+	Build_Map();
 	
 	
 	while( SDL_WaitEvent(&e) ) {
@@ -210,6 +219,33 @@ void Sokoban_Game ( int level ) {
 		else if( e.type == SDL_QUIT ) {
 			cout << "Game Over !" << endl;
 			break;
+		}
+		
+		else if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
+			bool end = false;
+			if( ToaDo(8, 1, e.button.x, e.button.y) ) {
+				
+				refresh(renderer);
+				SDL_RenderPresent(renderer);
+				
+				while( SDL_WaitEvent(&e) ) {
+					if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
+						Build_Map();
+						break;
+					}
+					else if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_RIGHT ) {
+						end = true;
+						break;
+					}
+					
+				}
+				
+			}
+			if( end ) {
+				cout << "Game Over !" << endl;
+				break;
+			}
+			else continue;
 		}
 		
 		else continue;
@@ -262,51 +298,91 @@ void Sokoban_Game ( int level ) {
 }
 
 void Draw_Menu () {
+	refresh(renderer);
+	
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	ChuNhatDac(renderer, 2, 2);
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 2, 4);
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 4, 2);
+	
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	ChuNhatDac(renderer, 4, 4);
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 8, 1);
+	
 }
 
-bool ToaDo ( int a, int b, int x, int y );
+void Draw_Level_Choose () {
+	refresh(renderer);
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 2, 2);
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 2, 4);
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 4, 2);
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 4, 4);
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	ChuNhatDac(renderer, 5, 5);
+}
 
 void run () {
 	
 	initSDL(window, renderer);
 	
 	do {
-		refresh(renderer);
 		Draw_Menu();
 		SDL_RenderPresent(renderer);
 		
 		while ( SDL_WaitEvent(&e) ) {
+			//menu
+			
 			if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 				if( ToaDo(2, 2, e.button.x, e.button.y) ) {
-					Sokoban_Game(1);
-					break;
+					
+					Draw_Level_Choose();
+					SDL_RenderPresent(renderer);
+					
+					while ( SDL_WaitEvent(&e) ) {
+						//chon man
+						
+						if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
+							if( ToaDo(2, 2, e.button.x, e.button.y) ) {
+								Sokoban_Game(1);
+								
+							}
+							else if( ToaDo(4, 2, e.button.x, e.button.y) ) {
+								Sokoban_Game(2);
+								
+							}
+							else if( ToaDo(2, 4, e.button.x, e.button.y) ) {
+								Sokoban_Game(3);
+								
+							}
+							else if( ToaDo(4, 4, e.button.x, e.button.y) ) {
+								Sokoban_Game(4);
+								
+							}
+							
+							else if( ToaDo(5, 5, e.button.x, e.button.y) ) {
+								break;
+							}
+							
+						}
+						Draw_Level_Choose();
+						SDL_RenderPresent(renderer);
+					}
 				}
-				if( ToaDo(4, 2, e.button.x, e.button.y) ) {
-					Sokoban_Game(2);
-					break;
-				}
-				if( ToaDo(2, 4, e.button.x, e.button.y) ) {
-					Sokoban_Game(3);
-					break;
-				}
-				if( ToaDo(4, 4, e.button.x, e.button.y) ) {
-					Sokoban_Game(4);
-					break;
-				}
-				if( ToaDo(8, 1, e.button.x, e.button.y)) {
+				
+				else if( ToaDo(4, 4, e.button.x, e.button.y) ) {
 					quitSDL(window, renderer);
 					return;
 				}
+				
+				break;
+				
+				
 			}
 		}
 		
