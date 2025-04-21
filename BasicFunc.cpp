@@ -52,11 +52,11 @@ int number_in_string ( string s, int k) {
 	return -1;
 }
 
-bool ToaDo ( int a, int b, int x, int y ) {
-	int x1 = (a - 1) * K,
-		y1 = (b - 1) * K,
-		x2 = a * K - 1,
-		y2 = b * K - 1;
+bool ToaDo ( int i, int j, int x, int y ) {
+	int x1 = (j - 1) * K,
+		y1 = (i - 1) * K,
+		x2 = j * K - 1,
+		y2 = i * K - 1;
 		
 	return ( x1 <= x && x <= x2 && y1 <= y && y <= y2 );
 }

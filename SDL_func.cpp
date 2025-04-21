@@ -242,3 +242,96 @@ void refresh ( SDL_Renderer* renderer ) {
 		}
 	}
 }
+
+int coor_convert_x ( int x ,int j ) {
+	
+	return K * (j - 1) + x - 1;
+	
+}
+
+int coor_convert_y ( int y ,int i ) {
+	
+	return K * (i - 1) + y - 1;
+	
+}
+
+void DrawPoint (SDL_Renderer* renderer, int x, int y, int i, int j) {
+	SDL_RenderDrawPoint(renderer, coor_convert_x(x, j), coor_convert_y(y, i));
+}
+
+void Draw_Arrow (SDL_Renderer* renderer, int i, int j) {
+	
+	SDL_SetRenderDrawColor(renderer, 127, 127, 0, 0);
+	for(int y = 1; y <= 100; y++) {
+		for(int x = 1; x <= 100; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+	}
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	
+	for(int y = 1; y <= 50; y++) {
+		for(int x = 1; x <= 50; x++) {
+			if( x + y >= 76 ) {
+				DrawPoint(renderer, x, y, i, j);
+			}
+		}
+	}
+	for(int y = 51; y <= 100; y++) {
+		for(int x = 1; x <= 50; x++) {
+			if( y - x <= 25 ) {
+				DrawPoint(renderer, x, y, i, j);
+			}
+		}
+	}
+	for(int y = 38; y <= 63; y++) {
+		for(int x = 51; x <= 75; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+	}
+	
+}
+
+void Draw_Pause(SDL_Renderer* renderer, int i, int j) {
+	SDL_SetRenderDrawColor(renderer, 127, 127, 0, 0);
+	for(int y = 1; y <= 100; y++) {
+		for(int x = 1; x <= 100; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+	}
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	
+	for(int y = 26; y <= 75; y++) {
+		DrawPoint(renderer, 38, y, i, j);
+		DrawPoint(renderer, 63, y, i, j);
+	}
+}
+
+void Draw_Continue(SDL_Renderer* renderer, int i, int j) {
+	SDL_SetRenderDrawColor(renderer, 127, 127, 0, 0);
+	for(int y = 1; y <= 100; y++) {
+		for(int x = 1; x <= 100; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+	}
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	
+	for(int y = 26; y <= 75; y++) {
+		for(int x = 38; x <= 62; x++) {
+			if( x - y <= 12 && x + y <= 113 ) {
+				DrawPoint(renderer, x, y, i, j);
+			}
+		}
+	}
+	
+}
+
+
+
+
+
+
+
+
