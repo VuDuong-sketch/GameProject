@@ -60,3 +60,17 @@ bool ToaDo ( int i, int j, int x, int y ) {
 		
 	return ( x1 <= x && x <= x2 && y1 <= y && y <= y2 );
 }
+
+void Delete_Dynamic_Array(int** ptr) {
+	for(int i = 0; i < 8; i++) {
+		delete[] ptr[i];
+	}
+	delete[] ptr;
+}
+
+void Release(vector<int**>& v) {
+	int size = v.size();
+	for(int i = 0; i < size; i++) {
+		Delete_Dynamic_Array(v[i]);
+	}
+}

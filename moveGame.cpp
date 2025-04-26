@@ -13,10 +13,11 @@ void waitUntilPressed();
 
 bool ToaDo ( int a, int b, int x, int y );
 
-char a[100][100], x[100][100];
+char current[8][10], x[8][10];
 int m, n;
 SDL_Event e;
 const int K = 100;
+bool new_status = true;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -37,91 +38,107 @@ Point M(1,1);
 
 void Move() {
 	if( e.key.keysym.sym == SDLK_UP ) {
-		if( a[M.y - 1][M.x] == char(219) ) {
+		if( current[M.y - 1][M.x] == char(219) ) {
+			new_status = false;
 			return;
 		}
 		
-		if( a[M.y - 1][M.x] == char(98) ) {
-			if( a[M.y - 2][M.x] == char(219) || a[M.y - 2][M.x] == char(98) ) {
+		if( current[M.y - 1][M.x] == char(98) ) {
+			if( current[M.y - 2][M.x] == char(219) || current[M.y - 2][M.x] == char(98) ) {
+				new_status = false;
 				return;
 			}
-			a[M.y][M.x] = ' ';
-			a[M.y - 2][M.x] = 98;
-			a[M.y - 1][M.x] = 15;
+			current[M.y][M.x] = ' ';
+			current[M.y - 2][M.x] = 98;
+			current[M.y - 1][M.x] = 15;
 			
 			M.y--;
+			new_status = true;
 			return;
 		}
 		
-		a[M.y][M.x] = ' ';
-		a[M.y - 1][M.x] = 15;
+		current[M.y][M.x] = ' ';
+		current[M.y - 1][M.x] = 15;
 		M.y--;
+		new_status = true;
 		return;
 	}
 	if( e.key.keysym.sym == SDLK_LEFT ) {
-		if( a[M.y][M.x - 1] == char(219) ) {
+		if( current[M.y][M.x - 1] == char(219) ) {
+			new_status = false;
 			return;
 		}
 		
-		if( a[M.y][M.x - 1] == char(98) ) {
-			if( a[M.y][M.x - 2] == char(219) || a[M.y][M.x - 2] == char(98) ) {
+		if( current[M.y][M.x - 1] == char(98) ) {
+			if( current[M.y][M.x - 2] == char(219) || current[M.y][M.x - 2] == char(98) ) {
+				new_status = false;
 				return;
 			}
-			a[M.y][M.x] = ' ';
-			a[M.y][M.x - 2] = 98;
-			a[M.y][M.x - 1] = 15;
+			current[M.y][M.x] = ' ';
+			current[M.y][M.x - 2] = 98;
+			current[M.y][M.x - 1] = 15;
 			
 			M.x--;
+			new_status = true;
 			return;
 		}
 		
-		a[M.y][M.x] = ' ';
-		a[M.y][M.x - 1] = 15;
+		current[M.y][M.x] = ' ';
+		current[M.y][M.x - 1] = 15;
 		M.x--;
+		new_status = true;
 		return;
 	}
 	if( e.key.keysym.sym == SDLK_DOWN ) {
-		if( a[M.y + 1][M.x] == char(219) ) {
+		if( current[M.y + 1][M.x] == char(219) ) {
+			new_status = false;
 			return;
 		}
 		
-		if( a[M.y + 1][M.x] == char(98) ) {
-			if( a[M.y + 2][M.x] == char(219) || a[M.y + 2][M.x] == char(98) ) {
+		if( current[M.y + 1][M.x] == char(98) ) {
+			if( current[M.y + 2][M.x] == char(219) || current[M.y + 2][M.x] == char(98) ) {
+				new_status = false;
 				return;
 			}
-			a[M.y][M.x] = ' ';
-			a[M.y + 2][M.x] = 98;
-			a[M.y + 1][M.x] = 15;
+			current[M.y][M.x] = ' ';
+			current[M.y + 2][M.x] = 98;
+			current[M.y + 1][M.x] = 15;
 			
 			M.y++;
+			new_status = true;
 			return;
 		}
 		
-		a[M.y][M.x] = ' ';
-		a[M.y + 1][M.x] = 15;
+		current[M.y][M.x] = ' ';
+		current[M.y + 1][M.x] = 15;
 		M.y++;
+		new_status = true;
 		return;
 	}
 	if( e.key.keysym.sym == SDLK_RIGHT ) {
-		if( a[M.y][M.x + 1] == char(219) ) {
+		if( current[M.y][M.x + 1] == char(219) ) {
+			new_status = false;
 			return;
 		}
 		
-		if( a[M.y][M.x + 1] == char(98) ) {
-			if( a[M.y][M.x + 2] == char(219)  || a[M.y][M.x + 2] == char(98)) {
+		if( current[M.y][M.x + 1] == char(98) ) {
+			if( current[M.y][M.x + 2] == char(219)  || current[M.y][M.x + 2] == char(98)) {
+				new_status = false;
 				return;
 			}
-			a[M.y][M.x] = ' ';
-			a[M.y][M.x + 2] = 98;
-			a[M.y][M.x + 1] = 15;
+			current[M.y][M.x] = ' ';
+			current[M.y][M.x + 2] = 98;
+			current[M.y][M.x + 1] = 15;
 			
 			M.x++;
+			new_status = true;
 			return;
 		}
 		
-		a[M.y][M.x] = ' ';
-		a[M.y][M.x + 1] = 15;
+		current[M.y][M.x] = ' ';
+		current[M.y][M.x + 1] = 15;
 		M.x++;
+		new_status = true;
 		return;
 	}
 }
@@ -152,14 +169,14 @@ void Build_Map () {
 	
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
-			if( a[i][j] == char(15) ) {
+			if( current[i][j] == char(15) ) {
 				SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
 				ChuNhatDac(renderer, j, i);
 			}
-			if( a[i][j] == 'b' ) {
+			if( current[i][j] == 'b' ) {
 				Box(renderer, j, i);
 			}
-			if( a[i][j] == char(219) ) {
+			if( current[i][j] == char(219) ) {
 				Tuong(renderer, j, i);
 			}
 			if( x[i][j] == 'x' ) {
@@ -168,6 +185,50 @@ void Build_Map () {
 		}
 	}
 	SDL_RenderPresent(renderer);
+}
+
+void UpDate_New_Status(vector<int**>& status) {
+	int** New_Status = new int*[8];
+	for(int i = 0; i < 8; i++) {
+		New_Status[i] = new int[10];
+	}
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 10; j++) {
+			New_Status[i][j] = current[i][j];
+		}
+	}
+	status.push_back(New_Status);
+}
+
+void Delete_Dynamic_Array(int** ptr);
+
+void Delete_Current_Status(vector<int**>& status) {
+	int Current_Index = status.size() - 1;
+	
+	Delete_Dynamic_Array(status[Current_Index]);
+	
+	status.pop_back();
+}
+
+void Release(vector<int**>& status);
+
+void Undo(vector<int**>& status) {
+	int** Prev_Status = status[status.size() - 2];
+	
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 10; j++) {
+			current[i][j] = Prev_Status[i][j];
+		}
+	}
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 10; j++) {
+			if( current[i][j] == char(15) ) {
+				M.y = i;
+				M.x = j;
+				return;
+			}
+		}
+	}
 }
 
 void Sokoban_Game ( int level ) {
@@ -180,11 +241,11 @@ void Sokoban_Game ( int level ) {
 	for(int i = 0; i < m + 2; i++) {
 		for(int j = 0; j < n + 2; j++) {
 			if(i == 0 || i == m + 1 || j == 0 || j == n + 1) {
-				a[i][j] = 219;
+				current[i][j] = 219;
 				x[i][j] = 219;
 			}
 			else {
-				a[i][j] = ' ';
+				current[i][j] = ' ';
 				x[i][j] = ' ';
 			}
 		}
@@ -210,8 +271,13 @@ void Sokoban_Game ( int level ) {
 			M.y = i;
 			M.x = j;
 		}
-		a[i][j] = c;
+		current[i][j] = c;
 	}
+	
+	vector<int**> status;
+	
+	UpDate_New_Status(status);
+	
 	
 	Build_Map();
 	
@@ -264,23 +330,54 @@ void Sokoban_Game ( int level ) {
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
-				if( a[i][j] != ' ' && a[i][j] != char(219) ) {
+				if( current[i][j] != ' ' && current[i][j] != char(219) ) {
 					ChuNhatDac(renderer, j, i);
 				}	
 			}	
 		}
+		
+		if( e.key.keysym.sym == SDLK_z ) {
+			
+			if( status.size() == 1 ) continue;
+			
+			Undo(status);
+			
+			Delete_Current_Status(status);
+			
+			for(int i = 1; i <= m; i++) {
+				for(int j = 1; j <= n; j++) {
+					if( current[i][j] == char(15) ) {
+						SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
+						ChuNhatDac(renderer, j, i);
+					}
+					if( current[i][j] == 'b' ) {
+						Box(renderer, j, i);
+					}
+					if( x[i][j] == 'x' ) {
+						ChuX(renderer, j, i);
+					}
+				}
+			}
+		 		
+			SDL_RenderPresent(renderer);
+			
+			continue;
+		}
 			
 		Move();
 		
+		if( !new_status ) continue;
+		
+		UpDate_New_Status(status);
 		
 		
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
-				if( a[i][j] == char(15) ) {
+				if( current[i][j] == char(15) ) {
 					SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
 					ChuNhatDac(renderer, j, i);
 				}
-				if( a[i][j] == 'b' ) {
+				if( current[i][j] == 'b' ) {
 					Box(renderer, j, i);
 				}
 				if( x[i][j] == 'x' ) {
@@ -294,7 +391,7 @@ void Sokoban_Game ( int level ) {
 		win = true;
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
-				if( ( a[i][j] == 'b' && x[i][j] != 'x' ) || ( a[i][j] != 'b' && x[i][j] == 'x' ) ) {
+				if( ( current[i][j] == 'b' && x[i][j] != 'x' ) || ( current[i][j] != 'b' && x[i][j] == 'x' ) ) {
 					win = false;
 				}
 				if( !win ) break;
@@ -305,6 +402,7 @@ void Sokoban_Game ( int level ) {
 	}
 	
 	if( win ) cout << "You Win!" << endl;
+	Release(status);
 }
 
 void Draw_Menu () {
