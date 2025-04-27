@@ -13,6 +13,8 @@ void waitUntilPressed();
 
 bool ToaDo ( int a, int b, int x, int y );
 
+
+
 char current[8][10], x[8][10];
 int m, n;
 SDL_Event e;
@@ -24,120 +26,146 @@ SDL_Renderer* renderer;
 
 int number_in_string(string s, int n);
 
-struct Point {
-	int x, y;
-	Point(int b, int a) {
-		x = a;
-		y = b;
+void DrawPoint (SDL_Renderer* renderer, int x, int y, int i, int j);
+
+struct My_Character {
+	int i, j;
+	
+	void Draw_Character() {
+		SDL_SetRenderDrawColor(renderer, 255, 127, 0, 0);
+		for(int y = 1; y <= 100; y++) {
+			for(int x = 1; x <= 100; x++) {
+				if( pow(double(x) - 50.5, 2) + pow(double(y) - 50.5, 2) < 2500 ) {
+					DrawPoint(renderer, x, y, i, j);
+				}
+			}
+		}
+
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		for(int y = 1; y <= 41; y++) {
+			for(int x = 13; x <= 38; x++) {
+				if( int(sqrt(pow(double(x) - 25.5, 2) + pow(y - 45, 2))) >= 10 && int(sqrt(pow(double(x) - 25.5, 2) + pow(y - 45, 2))) <= 12 ) {
+					DrawPoint(renderer, x, y, i, j);
+				}
+			}
+		}
+		for(int y = 1; y <= 41; y++) {
+			for(int x = 63; x <= 88; x++) {
+				if( int(sqrt(pow(double(x) - 75.5, 2) + pow(y - 45, 2))) >= 10 && int(sqrt(pow(double(x) - 75.5, 2) + pow(y - 45, 2))) <= 12 ) {
+					DrawPoint(renderer, x, y, i, j);
+				}
+			}
+		}
+		
 	}
 };
 
-Point M(1,1);
+My_Character M;
 
 
 
 void Move() {
 	if( e.key.keysym.sym == SDLK_UP ) {
-		if( current[M.y - 1][M.x] == char(219) ) {
+		if( current[M.i - 1][M.j] == char(219) ) {
 			new_status = false;
 			return;
 		}
 		
-		if( current[M.y - 1][M.x] == char(98) ) {
-			if( current[M.y - 2][M.x] == char(219) || current[M.y - 2][M.x] == char(98) ) {
+		if( current[M.i - 1][M.j] == char(98) ) {
+			if( current[M.i - 2][M.j] == char(219) || current[M.i - 2][M.j] == char(98) ) {
 				new_status = false;
 				return;
 			}
-			current[M.y][M.x] = ' ';
-			current[M.y - 2][M.x] = 98;
-			current[M.y - 1][M.x] = 15;
+			current[M.i][M.j] = ' ';
+			current[M.i - 2][M.j] = 98;
+			current[M.i - 1][M.j] = 15;
 			
-			M.y--;
+			M.i--;
 			new_status = true;
 			return;
 		}
 		
-		current[M.y][M.x] = ' ';
-		current[M.y - 1][M.x] = 15;
-		M.y--;
+		current[M.i][M.j] = ' ';
+		current[M.i - 1][M.j] = 15;
+		M.i--;
 		new_status = true;
 		return;
 	}
 	if( e.key.keysym.sym == SDLK_LEFT ) {
-		if( current[M.y][M.x - 1] == char(219) ) {
+		if( current[M.i][M.j - 1] == char(219) ) {
 			new_status = false;
 			return;
 		}
 		
-		if( current[M.y][M.x - 1] == char(98) ) {
-			if( current[M.y][M.x - 2] == char(219) || current[M.y][M.x - 2] == char(98) ) {
+		if( current[M.i][M.j - 1] == char(98) ) {
+			if( current[M.i][M.j - 2] == char(219) || current[M.i][M.j - 2] == char(98) ) {
 				new_status = false;
 				return;
 			}
-			current[M.y][M.x] = ' ';
-			current[M.y][M.x - 2] = 98;
-			current[M.y][M.x - 1] = 15;
+			current[M.i][M.j] = ' ';
+			current[M.i][M.j - 2] = 98;
+			current[M.i][M.j - 1] = 15;
 			
-			M.x--;
+			M.j--;
 			new_status = true;
 			return;
 		}
 		
-		current[M.y][M.x] = ' ';
-		current[M.y][M.x - 1] = 15;
-		M.x--;
+		current[M.i][M.j] = ' ';
+		current[M.i][M.j - 1] = 15;
+		M.j--;
 		new_status = true;
 		return;
 	}
 	if( e.key.keysym.sym == SDLK_DOWN ) {
-		if( current[M.y + 1][M.x] == char(219) ) {
+		if( current[M.i + 1][M.j] == char(219) ) {
 			new_status = false;
 			return;
 		}
 		
-		if( current[M.y + 1][M.x] == char(98) ) {
-			if( current[M.y + 2][M.x] == char(219) || current[M.y + 2][M.x] == char(98) ) {
+		if( current[M.i + 1][M.j] == char(98) ) {
+			if( current[M.i + 2][M.j] == char(219) || current[M.i + 2][M.j] == char(98) ) {
 				new_status = false;
 				return;
 			}
-			current[M.y][M.x] = ' ';
-			current[M.y + 2][M.x] = 98;
-			current[M.y + 1][M.x] = 15;
+			current[M.i][M.j] = ' ';
+			current[M.i + 2][M.j] = 98;
+			current[M.i + 1][M.j] = 15;
 			
-			M.y++;
+			M.i++;
 			new_status = true;
 			return;
 		}
 		
-		current[M.y][M.x] = ' ';
-		current[M.y + 1][M.x] = 15;
-		M.y++;
+		current[M.i][M.j] = ' ';
+		current[M.i + 1][M.j] = 15;
+		M.i++;
 		new_status = true;
 		return;
 	}
 	if( e.key.keysym.sym == SDLK_RIGHT ) {
-		if( current[M.y][M.x + 1] == char(219) ) {
+		if( current[M.i][M.j + 1] == char(219) ) {
 			new_status = false;
 			return;
 		}
 		
-		if( current[M.y][M.x + 1] == char(98) ) {
-			if( current[M.y][M.x + 2] == char(219)  || current[M.y][M.x + 2] == char(98)) {
+		if( current[M.i][M.j + 1] == char(98) ) {
+			if( current[M.i][M.j + 2] == char(219)  || current[M.i][M.j + 2] == char(98)) {
 				new_status = false;
 				return;
 			}
-			current[M.y][M.x] = ' ';
-			current[M.y][M.x + 2] = 98;
-			current[M.y][M.x + 1] = 15;
+			current[M.i][M.j] = ' ';
+			current[M.i][M.j + 2] = 98;
+			current[M.i][M.j + 1] = 15;
 			
-			M.x++;
+			M.j++;
 			new_status = true;
 			return;
 		}
 		
-		current[M.y][M.x] = ' ';
-		current[M.y][M.x + 1] = 15;
-		M.x++;
+		current[M.i][M.j] = ' ';
+		current[M.i][M.j + 1] = 15;
+		M.j++;
 		new_status = true;
 		return;
 	}
@@ -170,8 +198,7 @@ void Build_Map () {
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
 			if( current[i][j] == char(15) ) {
-				SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
-				ChuNhatDac(renderer, j, i);
+				M.Draw_Character();
 			}
 			if( current[i][j] == 'b' ) {
 				Box(renderer, j, i);
@@ -223,8 +250,8 @@ void Undo(vector<int**>& status) {
 	for(int i = 0; i < 8; i++) {
 		for(int j = 0; j < 10; j++) {
 			if( current[i][j] == char(15) ) {
-				M.y = i;
-				M.x = j;
+				M.i = i;
+				M.j = j;
 				return;
 			}
 		}
@@ -268,8 +295,8 @@ void Sokoban_Game ( int level ) {
 			continue;
 		}
 		if( c == 15 ) {
-			M.y = i;
-			M.x = j;
+			M.i = i;
+			M.j = j;
 		}
 		current[i][j] = c;
 	}
@@ -347,8 +374,7 @@ void Sokoban_Game ( int level ) {
 			for(int i = 1; i <= m; i++) {
 				for(int j = 1; j <= n; j++) {
 					if( current[i][j] == char(15) ) {
-						SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
-						ChuNhatDac(renderer, j, i);
+						M.Draw_Character();
 					}
 					if( current[i][j] == 'b' ) {
 						Box(renderer, j, i);
@@ -374,8 +400,7 @@ void Sokoban_Game ( int level ) {
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
 				if( current[i][j] == char(15) ) {
-					SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
-					ChuNhatDac(renderer, j, i);
+					M.Draw_Character();
 				}
 				if( current[i][j] == 'b' ) {
 					Box(renderer, j, i);
