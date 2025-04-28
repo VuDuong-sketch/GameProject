@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <cmath>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -229,8 +230,6 @@ void Box (SDL_Renderer* renderer, int i, int j);
 
 void refresh ( SDL_Renderer* renderer );
 
-vector<string> Level ( int level );
-
 void Draw_Arrow (SDL_Renderer* renderer, int i, int j);
 
 void Draw_Pause(SDL_Renderer* renderer, int i, int j);
@@ -327,17 +326,23 @@ void Sokoban_Game ( int level ) {
 	}
 	
 	
-	vector<string> v = Level(level);
-	int size = v.size();
 	
-	for(int iter = 0; iter < size; iter++) {
+	
+	string path = "E:/GameProject/map/level";
+	path += char(level + 48);
+	path += ".txt";
+	ifstream file(path);
+		
+	while(true) {
 		int i, j, c;
-		string line = v[iter];
+		string line;
+		getline(file, line);
 		
 		i = number_in_string(line, 1);
 		j = number_in_string(line, 2);
 		c = number_in_string(line, 3);
 		
+		if( c == -1 ) break;
 		if( c == 120 ) {
 			x[i][j] = c;
 			continue;
