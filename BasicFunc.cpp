@@ -52,7 +52,7 @@ int number_in_string ( string s, int k) {
 	return -1;
 }
 
-bool ToaDo ( int i, int j, int x, int y ) {
+bool Click ( int i, int j, int x, int y ) {
 	int x1 = (j - 1) * K,
 		y1 = (i - 1) * K,
 		x2 = j * K - 1,

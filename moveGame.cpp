@@ -11,7 +11,6 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 
 void waitUntilPressed();
 
-bool ToaDo ( int a, int b, int x, int y );
 
 
 
@@ -28,35 +27,84 @@ int number_in_string(string s, int n);
 
 void DrawPoint (SDL_Renderer* renderer, int x, int y, int i, int j);
 
+bool Click ( int i, int j, int x, int y );
+
 struct My_Character {
 	int i, j;
 	
+	bool left_horn(int x, int y) {
+		return ( y <= 3 * x - 50 && y >= x - 10 && y <= -x + 50 );
+	}
+	
+	bool right_horn(int x, int y) {
+		return ( y >= -x + 90 && y <= x - 50 && y <= -3 * x + 250 );
+	}
+	
+	bool left_eye(int x, int y) {
+		return ( 2 * y >= x + 45 && x >= 35 && 2 * y <= -x + 135 );
+	}
+	
+	bool right_eye(int x, int y) {
+		return ( 2 * y <= x + 35 && x <= 65 && 2 * y >= -x + 145 );
+	}
+	
 	void Draw_Character() {
-		SDL_SetRenderDrawColor(renderer, 255, 127, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 127, 0, 255, 0);
+	
 		for(int y = 1; y <= 100; y++) {
 			for(int x = 1; x <= 100; x++) {
-				if( pow(double(x) - 50.5, 2) + pow(double(y) - 50.5, 2) < 2500 ) {
+				if( pow(double(x) - 50.5, 2) + pow(double(y) - 50.5, 2) <= 30 * 30 ) {
 					DrawPoint(renderer, x, y, i, j);
 				}
 			}
 		}
-
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int y = 1; y <= 41; y++) {
-			for(int x = 13; x <= 38; x++) {
-				if( int(sqrt(pow(double(x) - 25.5, 2) + pow(y - 45, 2))) >= 10 && int(sqrt(pow(double(x) - 25.5, 2) + pow(y - 45, 2))) <= 12 ) {
+	
+		for(int y = 10; y <= 25; y++) {
+			for(int x = 20; x <= 30; x++) {
+				if( left_horn(x, y) ) {
 					DrawPoint(renderer, x, y, i, j);
 				}
 			}
 		}
-		for(int y = 1; y <= 41; y++) {
-			for(int x = 63; x <= 88; x++) {
-				if( int(sqrt(pow(double(x) - 75.5, 2) + pow(y - 45, 2))) >= 10 && int(sqrt(pow(double(x) - 75.5, 2) + pow(y - 45, 2))) <= 12 ) {
+	
+		for(int y = 10; y <= 25; y++) {
+			for(int x = 70; x <= 80; x++) {
+				if( right_horn(x, y) ) {
 					DrawPoint(renderer, x, y, i, j);
 				}
 			}
 		}
 		
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		for(int y = 40; y <= 50; y++) {
+			for(int x = 35; x <= 45; x++) {
+				if( left_eye(x, y) ) {
+					DrawPoint(renderer, x, y, i, j);
+				}
+			}
+		}
+		
+		for(int y = 40; y <= 50; y++) {
+			for(int x = 55; x <= 65; x++) {
+				if( right_eye(x, y) ) {
+					DrawPoint(renderer, x, y, i, j);
+				}
+			}
+		}
+		
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		DrawPoint(renderer, 38, 45, i, j);
+		DrawPoint(renderer, 38 + 1, 45, i, j);
+		DrawPoint(renderer, 38 - 1, 45, i, j);
+		DrawPoint(renderer, 38, 45 + 1, i, j);
+		DrawPoint(renderer, 38, 45 - 1, i, j);
+		
+		DrawPoint(renderer, 62, 45, i, j);
+		DrawPoint(renderer, 62 + 1, 45, i, j);
+		DrawPoint(renderer, 62 - 1, 45, i, j);
+		DrawPoint(renderer, 62, 45 + 1, i, j);
+		DrawPoint(renderer, 62, 45 - 1, i, j);
+			
 	}
 };
 
@@ -171,13 +219,13 @@ void Move() {
 	}
 }
 
-void ChuNhatDac(SDL_Renderer* renderer, int a, int b);
+void ChuNhatDac(SDL_Renderer* renderer, int i, int j);
 
-void Tuong(SDL_Renderer* renderer, int a, int b);
+void Tuong(SDL_Renderer* renderer, int i, int j);
 
-void ChuX (SDL_Renderer* renderer, int a, int b);
+void ChuX (SDL_Renderer* renderer, int i, int j);
 
-void Box (SDL_Renderer* renderer, int a, int b);
+void Box (SDL_Renderer* renderer, int i, int j);
 
 void refresh ( SDL_Renderer* renderer );
 
@@ -201,13 +249,13 @@ void Build_Map () {
 				M.Draw_Character();
 			}
 			if( current[i][j] == 'b' ) {
-				Box(renderer, j, i);
+				Box(renderer, i, j);
 			}
 			if( current[i][j] == char(219) ) {
-				Tuong(renderer, j, i);
+				Tuong(renderer, i, j);
 			}
 			if( x[i][j] == 'x' ) {
-				ChuX(renderer, j, i);
+				ChuX(renderer, i, j);
 			}
 		}
 	}
@@ -322,7 +370,7 @@ void Sokoban_Game ( int level ) {
 		
 		else if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 			bool end = false;
-			if( ToaDo(1, 8, e.button.x, e.button.y) ) {
+			if( Click(1, 8, e.button.x, e.button.y) ) {
 				
 				refresh(renderer);
 				Draw_Arrow(renderer, 4, 4);
@@ -331,11 +379,11 @@ void Sokoban_Game ( int level ) {
 				
 				while( SDL_WaitEvent(&e) ) {
 					if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
-						if( ToaDo(4, 4, e.button.x, e.button.y) ) {
+						if( Click(4, 4, e.button.x, e.button.y) ) {
 							end = true;
 							break;
 						}
-						else if( ToaDo(2, 4, e.button.x, e.button.y) ){
+						else if( Click(2, 4, e.button.x, e.button.y) ){
 							Build_Map();
 							break;
 						}
@@ -358,7 +406,7 @@ void Sokoban_Game ( int level ) {
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
 				if( current[i][j] != ' ' && current[i][j] != char(219) ) {
-					ChuNhatDac(renderer, j, i);
+					ChuNhatDac(renderer, i, j);
 				}	
 			}	
 		}
@@ -377,10 +425,10 @@ void Sokoban_Game ( int level ) {
 						M.Draw_Character();
 					}
 					if( current[i][j] == 'b' ) {
-						Box(renderer, j, i);
+						Box(renderer, i, j);
 					}
 					if( x[i][j] == 'x' ) {
-						ChuX(renderer, j, i);
+						ChuX(renderer, i, j);
 					}
 				}
 			}
@@ -403,10 +451,10 @@ void Sokoban_Game ( int level ) {
 					M.Draw_Character();
 				}
 				if( current[i][j] == 'b' ) {
-					Box(renderer, j, i);
+					Box(renderer, i, j);
 				}
 				if( x[i][j] == 'x' ) {
-					ChuX(renderer, j, i);
+					ChuX(renderer, i, j);
 				}
 			}
 		}
@@ -443,17 +491,14 @@ void Draw_Menu () {
 void Draw_Level_Choose () {
 	refresh(renderer);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 2, 2);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	ChuNhatDac(renderer, 3, 3);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 2, 4);
+	ChuNhatDac(renderer, 3, 5);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 4, 2);
+	ChuNhatDac(renderer, 5, 3);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-	ChuNhatDac(renderer, 4, 4);
+	ChuNhatDac(renderer, 5, 5);
 	
 	Draw_Arrow (renderer, 1, 1);
 }
@@ -470,7 +515,7 @@ void run () {
 			//menu
 			
 			if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
-				if( ToaDo(2, 4, e.button.x, e.button.y) ) {
+				if( Click(2, 4, e.button.x, e.button.y) ) {
 					
 					Draw_Level_Choose();
 					SDL_RenderPresent(renderer);
@@ -479,24 +524,24 @@ void run () {
 						//chon man
 						
 						if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
-							if( ToaDo(2, 2, e.button.x, e.button.y) ) {
+							if( Click(3, 3, e.button.x, e.button.y) ) {
 								Sokoban_Game(1);
 								
 							}
-							else if( ToaDo(2, 4, e.button.x, e.button.y) ) {
+							else if( Click(3, 5, e.button.x, e.button.y) ) {
 								Sokoban_Game(2);
 								
 							}
-							else if( ToaDo(4, 2, e.button.x, e.button.y) ) {
+							else if( Click(5, 3, e.button.x, e.button.y) ) {
 								Sokoban_Game(3);
 								
 							}
-							else if( ToaDo(4, 4, e.button.x, e.button.y) ) {
+							else if( Click(5, 5, e.button.x, e.button.y) ) {
 								Sokoban_Game(4);
 								
 							}
 							
-							else if( ToaDo(1, 1, e.button.x, e.button.y) ) {
+							else if( Click(1, 1, e.button.x, e.button.y) ) {
 								break;
 							}
 							
@@ -506,7 +551,7 @@ void run () {
 					}
 				}
 				
-				else if( ToaDo(4, 4, e.button.x, e.button.y) ) {
+				else if( Click(4, 4, e.button.x, e.button.y) ) {
 					quitSDL(window, renderer);
 					return;
 				}
