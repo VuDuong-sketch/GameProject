@@ -244,9 +244,6 @@ void Build_Map () {
 	
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
-			if( current[i][j] == char(15) ) {
-				M.Draw_Character();
-			}
 			if( current[i][j] == 'b' ) {
 				Box(renderer, i, j);
 			}
@@ -255,6 +252,9 @@ void Build_Map () {
 			}
 			if( x[i][j] == 'x' ) {
 				ChuX(renderer, i, j);
+			}
+			if( current[i][j] == char(15) ) {
+				M.Draw_Character();
 			}
 		}
 	}
@@ -426,14 +426,14 @@ void Sokoban_Game ( int level ) {
 			
 			for(int i = 1; i <= m; i++) {
 				for(int j = 1; j <= n; j++) {
-					if( current[i][j] == char(15) ) {
-						M.Draw_Character();
-					}
 					if( current[i][j] == 'b' ) {
 						Box(renderer, i, j);
 					}
 					if( x[i][j] == 'x' ) {
 						ChuX(renderer, i, j);
+					}
+					if( current[i][j] == char(15) ) {
+						M.Draw_Character();
 					}
 				}
 			}
@@ -452,14 +452,14 @@ void Sokoban_Game ( int level ) {
 		
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
-				if( current[i][j] == char(15) ) {
-					M.Draw_Character();
-				}
 				if( current[i][j] == 'b' ) {
 					Box(renderer, i, j);
 				}
 				if( x[i][j] == 'x' ) {
 					ChuX(renderer, i, j);
+				}
+				if( current[i][j] == char(15) ) {
+					M.Draw_Character();
 				}
 			}
 		}
