@@ -27,7 +27,7 @@ void waitUntilPressed() {
 	}
 }
 
-void ChuNhatDac(SDL_Renderer* renderer, int i, int j) {
+void Draw_Filled_Square (SDL_Renderer* renderer, int i, int j) {
 	
 	int x1 = (j - 1) * K,
 		y1 = (i - 1) * K,
@@ -42,7 +42,7 @@ void ChuNhatDac(SDL_Renderer* renderer, int i, int j) {
 	}
 }
 
-void Tuong(SDL_Renderer* renderer, int i, int j) {
+void Draw_Wall (SDL_Renderer* renderer, int i, int j) {
 	
 	int x1 = (j - 1) * K,
 		y1 = (i - 1) * K,
@@ -51,25 +51,25 @@ void Tuong(SDL_Renderer* renderer, int i, int j) {
 	
 	
 	for(int y = y1; y <= y1 + 20; y++) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1; x <= x1 + 3; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 4; x <= x1 + 49; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1 + 50; x <= x1 + 53; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 54; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
 	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	for(int y = y1 + 21; y <= y1 + 24; y++) {
 		for(int x = x1; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
@@ -77,29 +77,29 @@ void Tuong(SDL_Renderer* renderer, int i, int j) {
 	}
 	
 	for(int y = y1 + 25; y <= y1 + 45; y++) {
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1; x <= x1 + 24; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1 + 25; x <= x1 + 28; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 29; x <= x1 + 74; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1 + 75; x <= x1 + 78; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 79; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
 	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	for(int y = y1 + 46; y <= y1 + 49; y++) {
 		for(int x = x1; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
@@ -107,25 +107,25 @@ void Tuong(SDL_Renderer* renderer, int i, int j) {
 	}
 	
 	for(int y = y1 + 50; y <= y1 + 70; y++) {
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1; x <= x1 + 3; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 4; x <= x1 + 49; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1 + 50; x <= x1 + 53; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 54; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
 	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	for(int y = y1 + 71; y <= y1 + 74; y++) {
 		for(int x = x1; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
@@ -133,29 +133,29 @@ void Tuong(SDL_Renderer* renderer, int i, int j) {
 	}
 	
 	for(int y = y1 + 75; y <= y1 + 95; y++) {
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1; x <= x1 + 24; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1 + 25; x <= x1 + 28; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 29; x <= x1 + 74; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 		for(int x = x1 + 75; x <= x1 + 78; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
 		for(int x = x1 + 79; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
 	
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	for(int y = y1 + 96; y <= y1 + 99; y++) {
 		for(int x = x1; x <= x2; x++) {
 			SDL_RenderDrawPoint(renderer, x, y);
@@ -163,7 +163,7 @@ void Tuong(SDL_Renderer* renderer, int i, int j) {
 	}
 }
 
-void ChuX (SDL_Renderer* renderer, int i, int j) {
+void Draw_X_Mark (SDL_Renderer* renderer, int i, int j) {
 	int x1 = (j - 1) * K,
 		y1 = (i - 1) * K,
 		x2 = j * K - 1,
@@ -197,14 +197,14 @@ void ChuX (SDL_Renderer* renderer, int i, int j) {
 	}
 }
 
-void Box (SDL_Renderer* renderer, int i, int j) {
+void Draw_Box (SDL_Renderer* renderer, int i, int j) {
 	int x1 = (j - 1) * K,
 		y1 = (i - 1) * K,
 		x2 = j * K - 1,
 		y2 = i * K - 1;
 		
 	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
-	ChuNhatDac(renderer, i, j);
+	Draw_Filled_Square(renderer, i, j);
 	
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	for(int k = -10; k <= 10; k++) {
@@ -328,9 +328,90 @@ void Draw_Continue(SDL_Renderer* renderer, int i, int j) {
 	
 }
 
+void Draw_Number_1 (SDL_Renderer* renderer, int i, int j) {
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	Draw_Filled_Square(renderer, i, j);
+	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int x = 50; x <= 51; x++) {
+		for(int y = 26; y <= 75; y++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+	}
+	
+}
 
+void Draw_Number_2 (SDL_Renderer* renderer, int i, int j) {
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	Draw_Filled_Square(renderer, i, j);	
+	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int y = 26; y <= 75; y++) {
+		
+		for(int x = 44; x <= 45; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+		for(int x = 56; x <= 57; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+	}
+	
+}
 
+void Draw_Number_3 (SDL_Renderer* renderer, int i, int j) {
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	Draw_Filled_Square(renderer, i, j);	
+	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int y = 26; y <= 75; y++) {
+		for(int x = 50; x <= 51; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+		for(int x = 38; x <= 39; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+		for(int x = 62; x <= 63; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+	}
+	
+}
 
+void Draw_Number_4 (SDL_Renderer* renderer, int i, int j) {
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	Draw_Filled_Square(renderer, i, j);	
+	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int y = 26; y <= 75; y++) {
+		
+		for(int x = 32; x <= 33; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+		for(int x = 44; x <= 45; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+		for(int x = 56; x <= 57; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+		for(int x = 68; x <= 69; x++) {
+			DrawPoint(renderer, x, y, i, j);
+		}
+		
+	}
+	
+}
 
 
 

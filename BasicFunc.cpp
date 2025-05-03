@@ -68,7 +68,7 @@ void Delete_Dynamic_Array(int** ptr) {
 	delete[] ptr;
 }
 
-void Release(vector<int**>& v) {
+void Delete_All_Status(vector<int**>& v) {
 	int size = v.size();
 	for(int i = 0; i < size; i++) {
 		Delete_Dynamic_Array(v[i]);

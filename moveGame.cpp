@@ -220,13 +220,13 @@ void Move() {
 	}
 }
 
-void ChuNhatDac(SDL_Renderer* renderer, int i, int j);
+void Draw_Filled_Square (SDL_Renderer* renderer, int i, int j);
 
-void Tuong(SDL_Renderer* renderer, int i, int j);
+void Draw_Wall (SDL_Renderer* renderer, int i, int j);
 
-void ChuX (SDL_Renderer* renderer, int i, int j);
+void Draw_X_Mark (SDL_Renderer* renderer, int i, int j);
 
-void Box (SDL_Renderer* renderer, int i, int j);
+void Draw_Box (SDL_Renderer* renderer, int i, int j);
 
 void refresh ( SDL_Renderer* renderer );
 
@@ -245,13 +245,13 @@ void Build_Map () {
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
 			if( current[i][j] == 'b' ) {
-				Box(renderer, i, j);
+				Draw_Box(renderer, i, j);
 			}
 			if( current[i][j] == char(219) ) {
-				Tuong(renderer, i, j);
+				Draw_Wall(renderer, i, j);
 			}
 			if( x[i][j] == 'x' ) {
-				ChuX(renderer, i, j);
+				Draw_X_Mark(renderer, i, j);
 			}
 			if( current[i][j] == char(15) ) {
 				M.Draw_Character();
@@ -284,7 +284,7 @@ void Delete_Current_Status(vector<int**>& status) {
 	status.pop_back();
 }
 
-void Release(vector<int**>& status);
+void Delete_All_Status(vector<int**>& status);
 
 void Undo(vector<int**>& status) {
 	int** Prev_Status = status[status.size() - 2];
@@ -411,7 +411,7 @@ void Sokoban_Game ( int level ) {
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
 				if( current[i][j] != ' ' && current[i][j] != char(219) ) {
-					ChuNhatDac(renderer, i, j);
+					Draw_Filled_Square(renderer, i, j);
 				}	
 			}	
 		}
@@ -427,10 +427,10 @@ void Sokoban_Game ( int level ) {
 			for(int i = 1; i <= m; i++) {
 				for(int j = 1; j <= n; j++) {
 					if( current[i][j] == 'b' ) {
-						Box(renderer, i, j);
+						Draw_Box(renderer, i, j);
 					}
 					if( x[i][j] == 'x' ) {
-						ChuX(renderer, i, j);
+						Draw_X_Mark(renderer, i, j);
 					}
 					if( current[i][j] == char(15) ) {
 						M.Draw_Character();
@@ -453,10 +453,10 @@ void Sokoban_Game ( int level ) {
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
 				if( current[i][j] == 'b' ) {
-					Box(renderer, i, j);
+					Draw_Box(renderer, i, j);
 				}
 				if( x[i][j] == 'x' ) {
-					ChuX(renderer, i, j);
+					Draw_X_Mark(renderer, i, j);
 				}
 				if( current[i][j] == char(15) ) {
 					M.Draw_Character();
@@ -480,7 +480,7 @@ void Sokoban_Game ( int level ) {
 	}
 	
 	if( win ) cout << "You Win!" << endl;
-	Release(status);
+	Delete_All_Status(status);
 }
 
 void Draw_Menu () {
@@ -493,17 +493,22 @@ void Draw_Menu () {
 	
 }
 
-void Draw_Level_Choose () {
+void Draw_Number_1 (SDL_Renderer* renderer, int i, int j);
+void Draw_Number_2 (SDL_Renderer* renderer, int i, int j);
+void Draw_Number_3 (SDL_Renderer* renderer, int i, int j);
+void Draw_Number_4 (SDL_Renderer* renderer, int i, int j);
+
+void Draw_Level_Selection () {
 	refresh(renderer);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
-	ChuNhatDac(renderer, 3, 3);
 	
-	ChuNhatDac(renderer, 3, 5);
+	Draw_Number_1(renderer, 3, 3);
 	
-	ChuNhatDac(renderer, 5, 3);
+	Draw_Number_2(renderer, 3, 5);
 	
-	ChuNhatDac(renderer, 5, 5);
+	Draw_Number_3(renderer, 5, 3);
+	
+	Draw_Number_4(renderer, 5, 5);
 	
 	Draw_Arrow (renderer, 1, 1);
 }
@@ -522,7 +527,7 @@ void run () {
 			if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 				if( Click(2, 4, e.button.x, e.button.y) ) {
 					
-					Draw_Level_Choose();
+					Draw_Level_Selection();
 					SDL_RenderPresent(renderer);
 					
 					while ( SDL_WaitEvent(&e) ) {
@@ -551,7 +556,7 @@ void run () {
 							}
 							
 						}
-						Draw_Level_Choose();
+						Draw_Level_Selection();
 						SDL_RenderPresent(renderer);
 					}
 				}
