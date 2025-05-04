@@ -333,7 +333,30 @@ void Draw_Continue(SDL_Renderer* renderer, int i, int j) {
 
 char* string_to_CharPointer (const string& s);
 
-void get_text_and_rect (SDL_Renderer* renderer, int i, int j, string str_text, TTF_Font* font, SDL_Texture** texture, SDL_Rect* rect, int red, int green, int blue) {
+void get_text_and_rect (SDL_Renderer* renderer, int x, int y, string str_text, TTF_Font* font, SDL_Texture** texture, SDL_Rect* rect, int red, int green, int blue) {
+	
+	char* text = string_to_CharPointer(str_text);
+	
+	
+    int text_width;
+    int text_height;
+    SDL_Surface* surface;
+    SDL_Color textColor = {red, green, blue, 0};
+
+    surface = TTF_RenderText_Solid(font, text, textColor);
+    *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    text_width = surface->w;
+    text_height = surface->h;
+    SDL_FreeSurface(surface);
+    rect->x = x;
+    rect->y = y;
+    rect->w = text_width;
+    rect->h = text_height;
+    
+    delete[] text;
+}
+
+void Get_Text_And_Rect (SDL_Renderer* renderer, int i, int j, string str_text, TTF_Font* font, SDL_Texture** texture, SDL_Rect* rect, int red, int green, int blue) {
 	
 	char* text = string_to_CharPointer(str_text);
 	
@@ -359,6 +382,38 @@ void get_text_and_rect (SDL_Renderer* renderer, int i, int j, string str_text, T
     delete[] text;
 }
 
+string int_to_string(int n);
+
+int string_to_int(string s);
+
+void Draw_Number (SDL_Renderer* renderer, int i, int j, int n) {
+	SDL_Texture* texture;
+    SDL_Rect rect;
+    
+    TTF_Init();
+    
+    int x, y;
+    
+    
+    TTF_Font* font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 60);
+    
+    if( n < 10 ) {
+    	x = (j - 1) * K + 34,
+		y = (i - 1) * K + 24;
+	}
+	else {
+		x = (j - 1) * K + 17,
+		y = (i - 1) * K + 24;
+	}
+    
+    get_text_and_rect(renderer, x, y, int_to_string(n), font, &texture, &rect, 255, 255, 255);
+    
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    Draw_Filled_Square(renderer, i, j);
+    
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+}
+
 void Draw_Number_1 (SDL_Renderer* renderer, int i, int j) {
 	
 	SDL_Texture* texture;
@@ -367,7 +422,7 @@ void Draw_Number_1 (SDL_Renderer* renderer, int i, int j) {
     TTF_Init();
     TTF_Font* font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 120);
     
-    get_text_and_rect(renderer, i, j, "1", font, &texture, &rect, 0, 0, 0);
+    Get_Text_And_Rect(renderer, i, j, "1", font, &texture, &rect, 0, 0, 0);
     
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
     Draw_Filled_Square(renderer, i, j);
@@ -384,7 +439,7 @@ void Draw_Number_2 (SDL_Renderer* renderer, int i, int j) {
     TTF_Init();
     TTF_Font* font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 120);
     
-    get_text_and_rect(renderer, i, j, "2", font, &texture, &rect, 0, 0, 0);
+    Get_Text_And_Rect(renderer, i, j, "2", font, &texture, &rect, 0, 0, 0);
     
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
     Draw_Filled_Square(renderer, i, j);
@@ -401,7 +456,7 @@ void Draw_Number_3 (SDL_Renderer* renderer, int i, int j) {
     TTF_Init();
     TTF_Font* font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 120);
     
-    get_text_and_rect(renderer, i, j, "3", font, &texture, &rect, 0, 0, 0);
+    Get_Text_And_Rect(renderer, i, j, "3", font, &texture, &rect, 0, 0, 0);
     
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
     Draw_Filled_Square(renderer, i, j);
@@ -418,7 +473,7 @@ void Draw_Number_4 (SDL_Renderer* renderer, int i, int j) {
     TTF_Init();
     TTF_Font* font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 120);
     
-    get_text_and_rect(renderer, i, j, "4", font, &texture, &rect, 0, 0, 0);
+    Get_Text_And_Rect(renderer, i, j, "4", font, &texture, &rect, 0, 0, 0);
     
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
     Draw_Filled_Square(renderer, i, j);
@@ -427,6 +482,8 @@ void Draw_Number_4 (SDL_Renderer* renderer, int i, int j) {
 	
 }
 
+
+
 SDL_Texture* loadTexture (const char *filename, SDL_Renderer* renderer) {
 
 	SDL_Texture* texture = IMG_LoadTexture(renderer, filename);
@@ -434,9 +491,7 @@ SDL_Texture* loadTexture (const char *filename, SDL_Renderer* renderer) {
 	return texture;
 }
 
-string int_to_string(int n);
 
-int string_to_int(string s);
 
 void You_Win (SDL_Renderer* renderer, int steps, int level) {
 	
@@ -456,7 +511,7 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     
     font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
 	
-    get_text_and_rect(renderer, 5, 3, "The number of steps: " + int_to_string(steps), font, &texture, &rect, 255, 255, 255);
+    Get_Text_And_Rect(renderer, 5, 3, "The number of steps: " + int_to_string(steps), font, &texture, &rect, 255, 255, 255);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
     
@@ -479,7 +534,7 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     
     font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
     
-    get_text_and_rect(renderer, 2, 3, "Your Best Score: " + int_to_string(best_score), font, &texture, &rect, 255, 255, 255);
+    Get_Text_And_Rect(renderer, 2, 3, "Your Best Score: " + int_to_string(best_score), font, &texture, &rect, 255, 255, 255);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
     
@@ -489,7 +544,7 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     
     font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 30);
     
-    get_text_and_rect(renderer, 6, 3, "Click on anywhere to continue!", font, &texture, &rect, 255, 255, 255);
+    Get_Text_And_Rect(renderer, 6, 3, "Click on anywhere to continue!", font, &texture, &rect, 255, 255, 255);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
     

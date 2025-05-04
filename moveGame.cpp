@@ -221,68 +221,10 @@ void Move() {
 	}
 }
 
-void Draw_Filled_Square (SDL_Renderer* renderer, int i, int j);
 
-void Draw_Wall (SDL_Renderer* renderer, int i, int j);
-
-void Draw_X_Mark (SDL_Renderer* renderer, int i, int j);
-
-void Draw_Box (SDL_Renderer* renderer, int i, int j);
-
-void refresh ( SDL_Renderer* renderer );
-
-void Draw_Arrow (SDL_Renderer* renderer, int i, int j);
-
-void Draw_Pause(SDL_Renderer* renderer, int i, int j);
-
-void Draw_Continue(SDL_Renderer* renderer, int i, int j);
-
-void Draw_Map () {
-	refresh(renderer);
-	
-	Draw_Pause(renderer, 1, 8);
-	
-	
-	for(int i = 1; i <= m; i++) {
-		for(int j = 1; j <= n; j++) {
-			if( current[i][j] == char(219) ) {
-				Draw_Wall(renderer, i, j);
-			}
-			if( x[i][j] == 'x' ) {
-				Draw_X_Mark(renderer, i, j);
-			}
-		}
-	}
-}
-
-void Draw_Current_Status() {
-	for(int i = 1; i <= m; i++) {
-		for(int j = 1; j <= n; j++) {
-			if( current[i][j] == 'b' ) {
-				Draw_Box(renderer, i, j);
-			}
-			if( x[i][j] == 'x' ) {
-				Draw_X_Mark(renderer, i, j);
-			}
-			if( current[i][j] == char(15) ) {
-				M.Draw_Character();
-			}
-		}
-	}
-}
-
-void Refresh_Current() {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int i = 1; i <= m; i++) {
-		for(int j = 1; j <= n; j++) {
-			if( current[i][j] != ' ' && current[i][j] != char(219) ) {
-				Draw_Filled_Square(renderer, i, j);
-			}	
-		}	
-	}
-}
 
 string int_to_string( int n );
+
 char* string_to_CharPointer (const string& s);
 
 void Init_First_Status(int level) {
@@ -385,6 +327,71 @@ void Check_Win(bool& win) {
 	}
 }
 
+void Draw_Filled_Square (SDL_Renderer* renderer, int i, int j);
+
+void Draw_Wall (SDL_Renderer* renderer, int i, int j);
+
+void Draw_X_Mark (SDL_Renderer* renderer, int i, int j);
+
+void Draw_Box (SDL_Renderer* renderer, int i, int j);
+
+void refresh ( SDL_Renderer* renderer );
+
+void Draw_Arrow (SDL_Renderer* renderer, int i, int j);
+
+void Draw_Pause(SDL_Renderer* renderer, int i, int j);
+
+void Draw_Continue(SDL_Renderer* renderer, int i, int j);
+
+void Draw_Number (SDL_Renderer* renderer, int i, int j, int n);
+
+void Draw_Map () {
+	refresh(renderer);
+	
+	Draw_Pause(renderer, 1, 8);
+	
+	
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( current[i][j] == char(219) ) {
+				Draw_Wall(renderer, i, j);
+			}
+			if( x[i][j] == 'x' ) {
+				Draw_X_Mark(renderer, i, j);
+			}
+		}
+	}
+}
+
+void Draw_Current_Status(vector<int**>& status) {
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( current[i][j] == 'b' ) {
+				Draw_Box(renderer, i, j);
+			}
+			if( x[i][j] == 'x' ) {
+				Draw_X_Mark(renderer, i, j);
+			}
+			if( current[i][j] == char(15) ) {
+				M.Draw_Character();
+			}
+		}
+	}
+	
+	Draw_Number(renderer, 2, 8, status.size() - 1);
+}
+
+void Refresh_Current() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( current[i][j] != ' ' && current[i][j] != char(219) ) {
+				Draw_Filled_Square(renderer, i, j);
+			}	
+		}	
+	}
+}
+
 void You_Win (SDL_Renderer* renderer, int steps, int level);
 
 void Sokoban_Game ( int level ) {
@@ -400,7 +407,7 @@ void Sokoban_Game ( int level ) {
 	
 	
 	Draw_Map();
-	Draw_Current_Status();
+	Draw_Current_Status(status);
 	SDL_RenderPresent(renderer);
 	
 	
@@ -427,7 +434,7 @@ void Sokoban_Game ( int level ) {
 						}
 						else if( Click(2, 4, e.button.x, e.button.y) ){
 							Draw_Map();
-							Draw_Current_Status();
+							Draw_Current_Status(status);
 							SDL_RenderPresent(renderer);
 							break;
 						}
@@ -455,7 +462,7 @@ void Sokoban_Game ( int level ) {
 			
 			Delete_Current_Status(status);
 			
-			Draw_Current_Status();
+			Draw_Current_Status(status);
 		 		
 			SDL_RenderPresent(renderer);
 			
@@ -469,7 +476,7 @@ void Sokoban_Game ( int level ) {
 		UpDate_New_Status(status);
 		
 		
-		Draw_Current_Status();
+		Draw_Current_Status(status);
 		 		
 		SDL_RenderPresent(renderer);
 		
