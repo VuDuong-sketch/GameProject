@@ -524,19 +524,31 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     int best_score;
     infile >> best_score;
     
+    font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
+    
     if( steps < best_score ) {
     	best_score = steps;
     	ofstream outfile(path);
     	outfile << best_score;
+    	
+    	
+    	get_text_and_rect(renderer, 17, 34, "Congratulations! You've just broken the record!", font, &texture, &rect, 0, 255, 0);
+    	
+    	SDL_RenderCopy(renderer, texture, NULL, &rect);
+    	
+    	get_text_and_rect(renderer, 267, 117, "New Record: " + int_to_string(best_score), font, &texture, &rect, 0, 255, 0);
+    
+    	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	}
 	
+    
+    else {
+    	Get_Text_And_Rect(renderer, 2, 3, "Your Best Score: " + int_to_string(best_score), font, &texture, &rect, 255, 255, 255);
+    
+    	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	}
+    
     delete[] path;
-    
-    font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
-    
-    Get_Text_And_Rect(renderer, 2, 3, "Your Best Score: " + int_to_string(best_score), font, &texture, &rect, 255, 255, 255);
-    
-    SDL_RenderCopy(renderer, texture, NULL, &rect);
     
     
     
