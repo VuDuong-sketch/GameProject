@@ -9,7 +9,7 @@ using namespace std;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-const char* WINDOW_TITLE = "Hello World!";
+const char* WINDOW_TITLE = "Sokoban";
 const int K = 100;
 
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer) {
