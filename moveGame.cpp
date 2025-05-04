@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <fstream>
+#include <SDL_image.h>
 
 using namespace std;
 
@@ -305,6 +306,8 @@ void Undo(vector<int**>& status) {
 	}
 }
 
+void You_Win (SDL_Renderer* renderer, int steps);
+
 void Sokoban_Game ( int level ) {
 	
 	
@@ -328,10 +331,11 @@ void Sokoban_Game ( int level ) {
 	
 	
 	
-	string path = "E:/GameProject/map/level";
-	path += char(level + 48);
-	path += ".txt";
-	ifstream file(path);
+	ifstream file;
+	if( level == 1 ) file.open("E:/GameProject/map/level1.txt");
+	if( level == 2 ) file.open("E:/GameProject/map/level2.txt");
+	if( level == 3 ) file.open("E:/GameProject/map/level3.txt");
+	if( level == 4 ) file.open("E:/GameProject/map/level4.txt");
 		
 	while(true) {
 		int i, j, c;
@@ -398,7 +402,6 @@ void Sokoban_Game ( int level ) {
 				
 			}
 			if( end ) {
-				cout << "Game Over !" << endl;
 				break;
 			}
 			else continue;
@@ -479,7 +482,8 @@ void Sokoban_Game ( int level ) {
 		if( win ) break;
 	}
 	
-	if( win ) cout << "You Win!" << endl;
+	if( win ) You_Win(renderer, status.size() - 1);
+	
 	Delete_All_Status(status);
 }
 
@@ -502,13 +506,13 @@ void Draw_Level_Selection () {
 	refresh(renderer);
 	
 	
-	Draw_Number_1(renderer, 3, 3);
+	Draw_Number_1(renderer, 2, 3);
 	
-	Draw_Number_2(renderer, 3, 5);
+	Draw_Number_2(renderer, 2, 6);
 	
 	Draw_Number_3(renderer, 5, 3);
 	
-	Draw_Number_4(renderer, 5, 5);
+	Draw_Number_4(renderer, 5, 6);
 	
 	Draw_Arrow (renderer, 1, 1);
 }
@@ -534,11 +538,11 @@ void run () {
 						//chon man
 						
 						if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
-							if( Click(3, 3, e.button.x, e.button.y) ) {
+							if( Click(2, 3, e.button.x, e.button.y) ) {
 								Sokoban_Game(1);
 								
 							}
-							else if( Click(3, 5, e.button.x, e.button.y) ) {
+							else if( Click(2, 6, e.button.x, e.button.y) ) {
 								Sokoban_Game(2);
 								
 							}
@@ -546,7 +550,7 @@ void run () {
 								Sokoban_Game(3);
 								
 							}
-							else if( Click(5, 5, e.button.x, e.button.y) ) {
+							else if( Click(5, 6, e.button.x, e.button.y) ) {
 								Sokoban_Game(4);
 								
 							}
@@ -568,7 +572,7 @@ void run () {
 				
 				break;
 				
-				
+			
 			}
 		}
 		

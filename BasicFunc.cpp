@@ -74,3 +74,44 @@ void Delete_All_Status(vector<int**>& v) {
 		Delete_Dynamic_Array(v[i]);
 	}
 }
+
+char int_to_char( int n ) {
+	return char(n + 48);
+}
+
+string reverse(string& s) {
+	int len = s.length();
+	for(int i = 0; i < len / 2; i++) {
+		swap(s[i], s[len - 1 - i]);
+	}
+	return s;
+}
+
+string int_to_string(int n) {
+	string s;
+	bool flag = false;
+	if( n == 0 ) return "0";
+	if( n < 0 ) {
+		flag = true;
+		n *= -1;
+	}
+	while( n != 0 ) {
+		s += int_to_char(n % 10);
+		n /= 10;
+	}
+	if( flag ) s += '-';
+	reverse(s);
+	return s;
+}
+
+char* string_to_CharPointer (const string& s) {
+	char* ptr = new char[s.length() + 1];
+	for(int i = 0; s[i] != '\0'; i++) {
+		ptr[i] = s[i];
+	}
+	ptr[s.length()] = '\0';
+	return ptr;
+}
+
+
+
