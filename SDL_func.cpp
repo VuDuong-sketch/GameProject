@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -434,7 +435,9 @@ SDL_Texture* loadTexture (const char *filename, SDL_Renderer* renderer) {
 
 string int_to_string(int n);
 
-void You_Win (SDL_Renderer* renderer, int steps) {
+int string_to_int(string s);
+
+void You_Win (SDL_Renderer* renderer, int steps, int level) {
 	
 	SDL_Texture* texture = loadTexture("youwin.jpg", renderer);
 	
@@ -444,11 +447,44 @@ void You_Win (SDL_Renderer* renderer, int steps) {
     
     TTF_Init();
     
-    TTF_Font* font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
+    TTF_Font* font;
+    
+    
+    
+    
+    
+    font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
     
     get_text_and_rect(renderer, 5, 3, "The number of steps: " + int_to_string(steps), font, &texture, &rect, 255, 255, 255);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
+    
+    
+    
+    
+    
+    char* path = string_to_CharPointer("E:/GameProject/map/record" + int_to_string(level) + ".txt");
+	ifstream infile(path);
+    int best_score;
+    infile >> best_score;
+    
+    if( steps < best_score ) {
+    	best_score = steps;
+    	ofstream outfile(path);
+    	outfile << best_score;
+	}
+	
+    delete[] path;
+    
+    font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
+    
+    get_text_and_rect(renderer, 2, 3, "Your Best Score: " + int_to_string(best_score), font, &texture, &rect, 255, 255, 255);
+    
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+    
+    
+    
+    
     
     font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 30);
     

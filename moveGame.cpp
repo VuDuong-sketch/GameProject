@@ -385,7 +385,7 @@ void Check_Win(bool& win) {
 	}
 }
 
-void You_Win (SDL_Renderer* renderer, int steps);
+void You_Win (SDL_Renderer* renderer, int steps, int level);
 
 void Sokoban_Game ( int level ) {
 	
@@ -478,7 +478,7 @@ void Sokoban_Game ( int level ) {
 		if( win ) break;
 	}
 	
-	if( win ) You_Win(renderer, status.size() - 1);
+	if( win ) You_Win(renderer, status.size() - 1, level);
 	
 	Delete_All_Status(status);
 }
