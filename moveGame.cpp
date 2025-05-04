@@ -17,7 +17,7 @@ void waitUntilPressed();
 
 
 char current[8][10], x[8][10];
-int m, n;
+int m = 6, n = 8;
 SDL_Event e;
 const int K = 100;
 bool new_status = true;
@@ -237,7 +237,7 @@ void Draw_Pause(SDL_Renderer* renderer, int i, int j);
 
 void Draw_Continue(SDL_Renderer* renderer, int i, int j);
 
-void Build_Map () {
+void Draw_Map () {
 	refresh(renderer);
 	
 	Draw_Pause(renderer, 1, 8);
@@ -245,11 +245,21 @@ void Build_Map () {
 	
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
-			if( current[i][j] == 'b' ) {
-				Draw_Box(renderer, i, j);
-			}
 			if( current[i][j] == char(219) ) {
 				Draw_Wall(renderer, i, j);
+			}
+			if( x[i][j] == 'x' ) {
+				Draw_X_Mark(renderer, i, j);
+			}
+		}
+	}
+}
+
+void Draw_Current_Status() {
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( current[i][j] == 'b' ) {
+				Draw_Box(renderer, i, j);
 			}
 			if( x[i][j] == 'x' ) {
 				Draw_X_Mark(renderer, i, j);
@@ -259,7 +269,63 @@ void Build_Map () {
 			}
 		}
 	}
-	SDL_RenderPresent(renderer);
+}
+
+void Refresh_Current() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( current[i][j] != ' ' && current[i][j] != char(219) ) {
+				Draw_Filled_Square(renderer, i, j);
+			}	
+		}	
+	}
+}
+
+string int_to_string( int n );
+char* string_to_CharPointer (const string& s);
+
+void Init_First_Status(int level) {
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 10; j++) {
+			if(i == 0 || i == 7 || j == 0 || j == 9) {
+				current[i][j] = 219;
+				x[i][j] = 219;
+			}
+			else {
+				current[i][j] = ' ';
+				x[i][j] = ' ';
+			}
+		}
+	}
+	
+	
+	
+	char* path = string_to_CharPointer("E:/GameProject/map/level" + int_to_string(level) + ".txt");
+	ifstream file(path);
+	delete[] path;
+	
+		
+	while(true) {
+		int i, j, c;
+		string line;
+		getline(file, line);
+		
+		i = number_in_string(line, 1);
+		j = number_in_string(line, 2);
+		c = number_in_string(line, 3);
+		
+		if( c == -1 ) break;
+		if( c == 120 ) {
+			x[i][j] = c;
+			continue;
+		}
+		if( c == 15 ) {
+			M.i = i;
+			M.j = j;
+		}
+		current[i][j] = c;
+	}
 }
 
 void UpDate_New_Status(vector<int**>& status) {
@@ -306,64 +372,36 @@ void Undo(vector<int**>& status) {
 	}
 }
 
+void Check_Win(bool& win) {
+	win = true;
+	for(int i = 1; i <= m; i++) {
+		for(int j = 1; j <= n; j++) {
+			if( ( current[i][j] == 'b' && x[i][j] != 'x' ) || ( current[i][j] != 'b' && x[i][j] == 'x' ) ) {
+				win = false;
+			}
+			if( !win ) break;
+		}
+		if( !win ) break;
+	}
+}
+
 void You_Win (SDL_Renderer* renderer, int steps);
 
 void Sokoban_Game ( int level ) {
 	
 	
-	m = 600 / K;
-	n = 800 / K;
+	Init_First_Status(level);
+	
 	bool win = false;
-	
-	for(int i = 0; i < m + 2; i++) {
-		for(int j = 0; j < n + 2; j++) {
-			if(i == 0 || i == m + 1 || j == 0 || j == n + 1) {
-				current[i][j] = 219;
-				x[i][j] = 219;
-			}
-			else {
-				current[i][j] = ' ';
-				x[i][j] = ' ';
-			}
-		}
-	}
-	
-	
-	
-	
-	ifstream file;
-	if( level == 1 ) file.open("E:/GameProject/map/level1.txt");
-	if( level == 2 ) file.open("E:/GameProject/map/level2.txt");
-	if( level == 3 ) file.open("E:/GameProject/map/level3.txt");
-	if( level == 4 ) file.open("E:/GameProject/map/level4.txt");
-		
-	while(true) {
-		int i, j, c;
-		string line;
-		getline(file, line);
-		
-		i = number_in_string(line, 1);
-		j = number_in_string(line, 2);
-		c = number_in_string(line, 3);
-		
-		if( c == -1 ) break;
-		if( c == 120 ) {
-			x[i][j] = c;
-			continue;
-		}
-		if( c == 15 ) {
-			M.i = i;
-			M.j = j;
-		}
-		current[i][j] = c;
-	}
 	
 	vector<int**> status;
 	
 	UpDate_New_Status(status);
 	
 	
-	Build_Map();
+	Draw_Map();
+	Draw_Current_Status();
+	SDL_RenderPresent(renderer);
 	
 	
 	while( SDL_WaitEvent(&e) ) {
@@ -371,11 +409,6 @@ void Sokoban_Game ( int level ) {
 		
 		
 		if( e.type == SDL_KEYDOWN );
-		
-		else if( e.type == SDL_QUIT ) {
-			cout << "Game Over !" << endl;
-			break;
-		}
 		
 		else if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 			bool end = false;
@@ -393,7 +426,9 @@ void Sokoban_Game ( int level ) {
 							break;
 						}
 						else if( Click(2, 4, e.button.x, e.button.y) ){
-							Build_Map();
+							Draw_Map();
+							Draw_Current_Status();
+							SDL_RenderPresent(renderer);
 							break;
 						}
 					}
@@ -410,14 +445,7 @@ void Sokoban_Game ( int level ) {
 		else continue;
 		
 		
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-		for(int i = 1; i <= m; i++) {
-			for(int j = 1; j <= n; j++) {
-				if( current[i][j] != ' ' && current[i][j] != char(219) ) {
-					Draw_Filled_Square(renderer, i, j);
-				}	
-			}	
-		}
+		Refresh_Current();
 		
 		if( e.key.keysym.sym == SDLK_z ) {
 			
@@ -427,19 +455,7 @@ void Sokoban_Game ( int level ) {
 			
 			Delete_Current_Status(status);
 			
-			for(int i = 1; i <= m; i++) {
-				for(int j = 1; j <= n; j++) {
-					if( current[i][j] == 'b' ) {
-						Draw_Box(renderer, i, j);
-					}
-					if( x[i][j] == 'x' ) {
-						Draw_X_Mark(renderer, i, j);
-					}
-					if( current[i][j] == char(15) ) {
-						M.Draw_Character();
-					}
-				}
-			}
+			Draw_Current_Status();
 		 		
 			SDL_RenderPresent(renderer);
 			
@@ -453,32 +469,12 @@ void Sokoban_Game ( int level ) {
 		UpDate_New_Status(status);
 		
 		
-		for(int i = 1; i <= m; i++) {
-			for(int j = 1; j <= n; j++) {
-				if( current[i][j] == 'b' ) {
-					Draw_Box(renderer, i, j);
-				}
-				if( x[i][j] == 'x' ) {
-					Draw_X_Mark(renderer, i, j);
-				}
-				if( current[i][j] == char(15) ) {
-					M.Draw_Character();
-				}
-			}
-		}
+		Draw_Current_Status();
 		 		
 		SDL_RenderPresent(renderer);
 		
-		win = true;
-		for(int i = 1; i <= m; i++) {
-			for(int j = 1; j <= n; j++) {
-				if( ( current[i][j] == 'b' && x[i][j] != 'x' ) || ( current[i][j] != 'b' && x[i][j] == 'x' ) ) {
-					win = false;
-				}
-				if( !win ) break;
-			}
-			if( !win ) break;
-		}
+		Check_Win(win);
+		
 		if( win ) break;
 	}
 	
@@ -526,7 +522,6 @@ void run () {
 		SDL_RenderPresent(renderer);
 		
 		while ( SDL_WaitEvent(&e) ) {
-			//menu
 			
 			if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 				if( Click(2, 4, e.button.x, e.button.y) ) {
@@ -535,7 +530,6 @@ void run () {
 					SDL_RenderPresent(renderer);
 					
 					while ( SDL_WaitEvent(&e) ) {
-						//chon man
 						
 						if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 							if( Click(2, 3, e.button.x, e.button.y) ) {

@@ -5,16 +5,6 @@ using namespace std;
 
 const int K = 100;
 
-void printArr(char* arr[], int m, int n) {
-	for(int i = 0; i < m + 2; i++) {
-		for(int j = 0; j < n + 2; j++) {
-			cout << arr[i][j];
-		}
-		cout << endl;
-	}
-	cout << endl;
-}
-
 int string_to_int (string s) {
     int sm = 0, sc;
     
