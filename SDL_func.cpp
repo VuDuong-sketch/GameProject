@@ -334,6 +334,7 @@ void Draw_Continue(SDL_Renderer* renderer, int i, int j) {
 char* string_to_CharPointer (const string& s);
 
 void get_text_and_rect (SDL_Renderer* renderer, int i, int j, string str_text, TTF_Font* font, SDL_Texture** texture, SDL_Rect* rect, int red, int green, int blue) {
+	
 	char* text = string_to_CharPointer(str_text);
 	
 	
@@ -454,7 +455,7 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     
     
     font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
-    
+	
     get_text_and_rect(renderer, 5, 3, "The number of steps: " + int_to_string(steps), font, &texture, &rect, 255, 255, 255);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
@@ -491,6 +492,10 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     get_text_and_rect(renderer, 6, 3, "Click on anywhere to continue!", font, &texture, &rect, 255, 255, 255);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
+    
+    
+    
+    
     
 	SDL_RenderPresent( renderer );
     waitUntilPressed();
