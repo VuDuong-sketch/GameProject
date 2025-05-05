@@ -335,6 +335,8 @@ void Draw_X_Mark (SDL_Renderer* renderer, int i, int j);
 
 void Draw_Box (SDL_Renderer* renderer, int i, int j);
 
+void Draw_Bright_Box (SDL_Renderer* renderer, int i, int j);
+
 void refresh ( SDL_Renderer* renderer );
 
 void Draw_Arrow (SDL_Renderer* renderer, int i, int j);
@@ -366,12 +368,18 @@ void Draw_Map () {
 void Draw_Current_Status(vector<int**>& status) {
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
-			if( current[i][j] == 'b' ) {
-				Draw_Box(renderer, i, j);
+			if( current[i][j] == 'b' && x[i][j] == 'x' ) {
+				Draw_Bright_Box(renderer, i, j);
 			}
-			if( x[i][j] == 'x' ) {
-				Draw_X_Mark(renderer, i, j);
+			else {
+				if( current[i][j] == 'b' ) {
+					Draw_Box(renderer, i, j);
+				}
+				if( x[i][j] == 'x' ) {
+					Draw_X_Mark(renderer, i, j);
+				}
 			}
+			
 			if( current[i][j] == char(15) ) {
 				M.Draw_Character();
 			}

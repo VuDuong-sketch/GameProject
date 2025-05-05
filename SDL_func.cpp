@@ -30,6 +30,22 @@ void waitUntilPressed() {
 	}
 }
 
+int coor_convert_x ( int x ,int j ) {
+	
+	return K * (j - 1) + x - 1;
+	
+}
+
+int coor_convert_y ( int y ,int i ) {
+	
+	return K * (i - 1) + y - 1;
+	
+}
+
+void DrawPoint (SDL_Renderer* renderer, int x, int y, int i, int j) {
+	SDL_RenderDrawPoint(renderer, coor_convert_x(x, j), coor_convert_y(y, i));
+}
+
 void Draw_Filled_Square (SDL_Renderer* renderer, int i, int j) {
 	
 	int x1 = (j - 1) * K,
@@ -172,29 +188,11 @@ void Draw_X_Mark (SDL_Renderer* renderer, int i, int j) {
 		x2 = j * K - 1,
 		y2 = i * K - 1;
 	
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int y = y1, x = x1 - k; x <= x2; y++, x++) {
-				SDL_RenderDrawPoint(renderer, x, y);
-			}
-		}
-		else {
-			for(int y = y1 + k, x = x1;  y <= y2; y++, x++) {
-				SDL_RenderDrawPoint(renderer, x, y);
-			}
-		}
-	}
-	
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int y = y1 - k, x = x2; y <= y2; y++, x--) {
-				SDL_RenderDrawPoint(renderer, x, y);
-			}
-		}
-		else {
-			for(int y = y1, x = x2 - k; x >= x1; y++, x--) {
-				SDL_RenderDrawPoint(renderer, x, y);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	for(int y = 1; y <= 100; y++) {
+		for(int x = 1; x <= 100; x++) {
+			if( ( 41 <= x + y && x + y <= 161 && x - 9 <= y && y <= x + 9 ) || ( 92 <= x + y && x + y <= 110 && x - 60 <= y && y <= x + 60 ) ) {
+				DrawPoint(renderer, x, y, i, j);
 			}
 		}
 	}
@@ -206,32 +204,52 @@ void Draw_Box (SDL_Renderer* renderer, int i, int j) {
 		x2 = j * K - 1,
 		y2 = i * K - 1;
 		
-	SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
+	SDL_SetRenderDrawColor(renderer, 159, 80, 16, 0);
 	Draw_Filled_Square(renderer, i, j);
 	
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int y = y1, x = x1 - k; x <= x2; y++, x++) {
-				SDL_RenderDrawPoint(renderer, x, y);
-			}
-		}
-		else {
-			for(int y = y1 + k, x = x1;  y <= y2; y++, x++) {
-				SDL_RenderDrawPoint(renderer, x, y);
+	for(int x = x1; x <= x2; x++) {
+		SDL_RenderDrawPoint(renderer, x, y1);
+		SDL_RenderDrawPoint(renderer, x, y2);
+	}
+	for(int y = y1; y <= y2; y++) {
+		SDL_RenderDrawPoint(renderer, x1, y);
+		SDL_RenderDrawPoint(renderer, x2, y);
+	}
+	
+	for(int y = 1; y <= 100; y++) {
+		for(int x = 1; x <= 100; x++) {
+			if( ( 41 <= x + y && x + y <= 161 && x - 9 <= y && y <= x + 9 ) || ( 92 <= x + y && x + y <= 110 && x - 60 <= y && y <= x + 60 ) ) {
+				DrawPoint(renderer, x, y, i, j);
 			}
 		}
 	}
+}
+
+void Draw_Bright_Box (SDL_Renderer* renderer, int i, int j) {
+	int x1 = (j - 1) * K,
+		y1 = (i - 1) * K,
+		x2 = j * K - 1,
+		y2 = i * K - 1;
+		
+	SDL_SetRenderDrawColor(renderer, 255, 127, 0, 0);
+	Draw_Filled_Square(renderer, i, j);
 	
-	for(int k = -10; k <= 10; k++) {
-		if(k < 0) {
-			for(int y = y1 - k, x = x2; y <= y2; y++, x--) {
-				SDL_RenderDrawPoint(renderer, x, y);
-			}
-		}
-		else {
-			for(int y = y1, x = x2 - k; x >= x1; y++, x--) {
-				SDL_RenderDrawPoint(renderer, x, y);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	for(int x = x1; x <= x2; x++) {
+		SDL_RenderDrawPoint(renderer, x, y1);
+		SDL_RenderDrawPoint(renderer, x, y2);
+	}
+	for(int y = y1; y <= y2; y++) {
+		SDL_RenderDrawPoint(renderer, x1, y);
+		SDL_RenderDrawPoint(renderer, x2, y);
+	}
+	
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	for(int y = 1; y <= 100; y++) {
+		for(int x = 1; x <= 100; x++) {
+			if( ( 41 <= x + y && x + y <= 161 && x - 9 <= y && y <= x + 9 ) || ( 92 <= x + y && x + y <= 110 && x - 60 <= y && y <= x + 60 ) ) {
+				DrawPoint(renderer, x, y, i, j);
 			}
 		}
 	}
@@ -246,21 +264,7 @@ void refresh ( SDL_Renderer* renderer ) {
 	}
 }
 
-int coor_convert_x ( int x ,int j ) {
-	
-	return K * (j - 1) + x - 1;
-	
-}
 
-int coor_convert_y ( int y ,int i ) {
-	
-	return K * (i - 1) + y - 1;
-	
-}
-
-void DrawPoint (SDL_Renderer* renderer, int x, int y, int i, int j) {
-	SDL_RenderDrawPoint(renderer, coor_convert_x(x, j), coor_convert_y(y, i));
-}
 
 void Draw_Arrow (SDL_Renderer* renderer, int i, int j) {
 	
