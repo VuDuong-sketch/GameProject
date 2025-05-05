@@ -1,5 +1,5 @@
-  Họ và tên: Dương Minh Vũ
-  Mã sinh viên: 24022844
+Họ và tên: Dương Minh Vũ\n
+Mã sinh viên: 24022844
 
 
 Luật chơi:
