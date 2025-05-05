@@ -16,5 +16,6 @@ Cách chơi:
 
   
 Ngưỡng điểm: 8 - 8.5
-  - (1) Game tự viết có thuật toán nằm ngoài chương trình môn học: Thuật toán lùi lại 1 bước; Thuật toán đẩy hộp; Thuật toán đếm số bước đi.
+  - (1) Game tự viết có thuật toán nằm ngoài chương trình môn học: Thuật toán lùi lại 1 bước; Thuật toán đẩy hộp; Thuật toán đếm số bước đi
   - (2) Game tự viết có đồ hoạ đơn giản.
+  - (3) Các tính năng đặc biệt: Menu; Pause; Lưu kỉ lục
