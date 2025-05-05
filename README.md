@@ -1,4 +1,5 @@
-Họ và tên: Dương Minh Vũ\n
+Họ và tên: Dương Minh Vũ
+
 Mã sinh viên: 24022844
 
 
