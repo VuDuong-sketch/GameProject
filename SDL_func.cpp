@@ -245,7 +245,6 @@ void Draw_Bright_Box (SDL_Renderer* renderer, int i, int j) {
 		SDL_RenderDrawPoint(renderer, x2, y);
 	}
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
 	for(int y = 1; y <= 100; y++) {
 		for(int x = 1; x <= 100; x++) {
 			if( ( 41 <= x + y && x + y <= 161 && x - 9 <= y && y <= x + 9 ) || ( 92 <= x + y && x + y <= 110 && x - 60 <= y && y <= x + 60 ) ) {

@@ -368,16 +368,14 @@ void Draw_Map () {
 void Draw_Current_Status(vector<int**>& status) {
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
-			if( current[i][j] == 'b' && x[i][j] == 'x' ) {
-				Draw_Bright_Box(renderer, i, j);
+			
+			if( current[i][j] == 'b' ) {
+				if( x[i][j] == 'x' ) Draw_Bright_Box(renderer, i, j);
+				else Draw_Box(renderer, i, j);
 			}
-			else {
-				if( current[i][j] == 'b' ) {
-					Draw_Box(renderer, i, j);
-				}
-				if( x[i][j] == 'x' ) {
-					Draw_X_Mark(renderer, i, j);
-				}
+			
+			if( x[i][j] == 'x' ) {
+				Draw_X_Mark(renderer, i, j);
 			}
 			
 			if( current[i][j] == char(15) ) {
