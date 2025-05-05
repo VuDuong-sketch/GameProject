@@ -219,6 +219,7 @@ void Move() {
 		new_status = true;
 		return;
 	}
+	new_status = false;
 }
 
 
