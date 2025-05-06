@@ -26,21 +26,15 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer) {
 void waitUntilPressed() {
 	SDL_Event e;
 	while( SDL_WaitEvent(&e) ) {
+		
+		if( e.type == SDL_QUIT ) exit(0);
+		
 		if( e.type == SDL_KEYDOWN || e.type == SDL_QUIT || e.type == SDL_MOUSEBUTTONDOWN ) return;
 	}
 }
 
-int coor_convert_x ( int x ,int j ) {
-	
-	return K * (j - 1) + x - 1;
-	
-}
-
-int coor_convert_y ( int y ,int i ) {
-	
-	return K * (i - 1) + y - 1;
-	
-}
+int coor_convert_x (int x, int j);
+int coor_convert_y (int y, int i);
 
 void DrawPoint (SDL_Renderer* renderer, int x, int y, int i, int j) {
 	SDL_RenderDrawPoint(renderer, coor_convert_x(x, j), coor_convert_y(y, i));

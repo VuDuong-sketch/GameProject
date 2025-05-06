@@ -107,5 +107,15 @@ char* string_to_CharPointer (const string& s) {
 	return ptr;
 }
 
+int coor_convert_x (int x, int j) {
+	
+	return K * (j - 1) + x - 1;
+	
+}
 
+int coor_convert_y (int y, int i) {
+	
+	return K * (i - 1) + y - 1;
+	
+}
 

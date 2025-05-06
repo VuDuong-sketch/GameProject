@@ -420,6 +420,8 @@ void Sokoban_Game ( int level ) {
 	
 	while( SDL_WaitEvent(&e) ) {
 		
+		if( e.type == SDL_QUIT ) exit(0);
+		
 		
 		
 		if( e.type == SDL_KEYDOWN );
@@ -434,6 +436,9 @@ void Sokoban_Game ( int level ) {
 				SDL_RenderPresent(renderer);
 				
 				while( SDL_WaitEvent(&e) ) {
+					
+					if( e.type == SDL_QUIT ) exit(0);
+					
 					if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 						if( Click(4, 4, e.button.x, e.button.y) ) {
 							end = true;
@@ -475,7 +480,7 @@ void Sokoban_Game ( int level ) {
 			
 			continue;
 		}
-			
+		
 		Move();
 		
 		if( !new_status ) continue;
@@ -537,6 +542,9 @@ void run () {
 		
 		while ( SDL_WaitEvent(&e) ) {
 			
+			if( e.type == SDL_QUIT ) exit(0);
+			
+			
 			if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 				if( Click(2, 4, e.button.x, e.button.y) ) {
 					
@@ -544,6 +552,9 @@ void run () {
 					SDL_RenderPresent(renderer);
 					
 					while ( SDL_WaitEvent(&e) ) {
+						
+						if( e.type == SDL_QUIT ) exit(0);
+						
 						
 						if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
 							if( Click(2, 3, e.button.x, e.button.y) ) {
