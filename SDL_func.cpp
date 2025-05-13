@@ -383,7 +383,7 @@ string int_to_string(int n);
 
 int string_to_int(string s);
 
-void Draw_Number (SDL_Renderer* renderer, int i, int j, int n) {
+void Draw_Number (SDL_Renderer* renderer, int i, int j, int n, int r = 0, int g = 0, int b = 0) {
 	SDL_Texture* texture;
     SDL_Rect rect;
     
@@ -405,7 +405,7 @@ void Draw_Number (SDL_Renderer* renderer, int i, int j, int n) {
     
     get_text_and_rect(renderer, x, y, int_to_string(n), font, &texture, &rect, 255, 255, 255);
     
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_SetRenderDrawColor(renderer, r, g, b, 0);
     Draw_Filled_Square(renderer, i, j);
     
     SDL_RenderCopy(renderer, texture, NULL, &rect);
@@ -565,5 +565,51 @@ void You_Win (SDL_Renderer* renderer, int steps, int level) {
     waitUntilPressed();
 	
 }
+
+void Draw_Score (SDL_Renderer* renderer, int i, int j, int level) {
+	
+	char* path = string_to_CharPointer("E:/GameProject/map/record" + int_to_string(level) + ".txt");
+	ifstream infile(path);
+    int best_score;
+    infile >> best_score;
+    
+    Draw_Filled_Square(renderer, i, j);
+    
+    Draw_Number(renderer, i, j, best_score, 0, 0, 255);
+    
+    delete[] path;
+	
+}
+
+void Draw_Title(SDL_Renderer* renderer, int level) {
+	
+	SDL_Texture* texture;
+	
+	SDL_Rect rect;
+    
+    TTF_Init();
+    
+    TTF_Font* font;
+    
+    
+    font = TTF_OpenFont("walgreensscriptfreeversion.ttf", 40);
+	
+	
+	get_text_and_rect(renderer, 150, 134,  "The Best Score Of Level " + int_to_string(level) + ": ", font, &texture, &rect, 255, 255, 255);
+    
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 

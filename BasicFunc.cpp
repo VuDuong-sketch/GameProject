@@ -89,13 +89,6 @@ void Delete_Dynamic_Array(int** ptr) {
 	delete[] ptr;
 }
 
-void Delete_All_Status(vector<int**>& v) {
-	int size = v.size();
-	for(int i = 0; i < size; i++) {
-		Delete_Dynamic_Array(v[i]);
-	}
-}
-
 
 
 char* string_to_CharPointer (const string& s) {

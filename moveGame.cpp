@@ -110,9 +110,76 @@ struct My_Character {
 	}
 };
 
+
+
 My_Character M;
 
+void Delete_Dynamic_Array(int** ptr);
 
+
+class Game_Status {
+	vector<int**> status;
+	
+public:
+	
+	void UpDate_New_Status() {
+		int** New_Status = new int*[8];
+		for(int i = 0; i < 8; i++) {
+			New_Status[i] = new int[10];
+		}
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 10; j++) {
+				New_Status[i][j] = current[i][j];
+			}
+		}
+		status.push_back(New_Status);
+	}
+	
+	
+	
+	void Delete_Current_Status() {
+		int Current_Index = status.size() - 1;
+		
+		Delete_Dynamic_Array(status[Current_Index]);
+		
+		status.pop_back();
+	}
+	
+	
+	
+	void Undo() {
+		int** Prev_Status = status[status.size() - 2];
+		
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 10; j++) {
+				current[i][j] = Prev_Status[i][j];
+			}
+		}
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 10; j++) {
+				if( current[i][j] == char(15) ) {
+					M.i = i;
+					M.j = j;
+					return;
+				}
+			}
+		}
+	}
+	
+	int Get_NumOfSteps() {
+		return status.size() - 1;
+	}
+	
+	void Clear() {
+		int size = status.size();
+		for(int i = 0; i < size; i++) {
+			Delete_Dynamic_Array(status[i]);
+		}
+		status.clear();
+	}
+};
+
+Game_Status gameStatus;
 
 void Move() {
 	if( e.key.keysym.sym == SDLK_UP ) {
@@ -271,49 +338,7 @@ void Init_First_Status(int level) {
 	}
 }
 
-void UpDate_New_Status(vector<int**>& status) {
-	int** New_Status = new int*[8];
-	for(int i = 0; i < 8; i++) {
-		New_Status[i] = new int[10];
-	}
-	for(int i = 0; i < 8; i++) {
-		for(int j = 0; j < 10; j++) {
-			New_Status[i][j] = current[i][j];
-		}
-	}
-	status.push_back(New_Status);
-}
 
-void Delete_Dynamic_Array(int** ptr);
-
-void Delete_Current_Status(vector<int**>& status) {
-	int Current_Index = status.size() - 1;
-	
-	Delete_Dynamic_Array(status[Current_Index]);
-	
-	status.pop_back();
-}
-
-void Delete_All_Status(vector<int**>& status);
-
-void Undo(vector<int**>& status) {
-	int** Prev_Status = status[status.size() - 2];
-	
-	for(int i = 0; i < 8; i++) {
-		for(int j = 0; j < 10; j++) {
-			current[i][j] = Prev_Status[i][j];
-		}
-	}
-	for(int i = 0; i < 8; i++) {
-		for(int j = 0; j < 10; j++) {
-			if( current[i][j] == char(15) ) {
-				M.i = i;
-				M.j = j;
-				return;
-			}
-		}
-	}
-}
 
 void Check_Win(bool& win) {
 	win = true;
@@ -346,7 +371,7 @@ void Draw_Pause(SDL_Renderer* renderer, int i, int j);
 
 void Draw_Continue(SDL_Renderer* renderer, int i, int j);
 
-void Draw_Number (SDL_Renderer* renderer, int i, int j, int n);
+void Draw_Number (SDL_Renderer* renderer, int i, int j, int n, int r = 0, int g = 0, int b = 0);
 
 void Draw_Map () {
 	refresh(renderer);
@@ -366,7 +391,7 @@ void Draw_Map () {
 	}
 }
 
-void Draw_Current_Status(vector<int**>& status) {
+void Draw_Current_Status() {
 	for(int i = 1; i <= m; i++) {
 		for(int j = 1; j <= n; j++) {
 			
@@ -385,7 +410,7 @@ void Draw_Current_Status(vector<int**>& status) {
 		}
 	}
 	
-	Draw_Number(renderer, 2, 8, status.size() - 1);
+	Draw_Number(renderer, 2, 8, gameStatus.Get_NumOfSteps());
 }
 
 void Refresh_Current() {
@@ -408,13 +433,12 @@ void Sokoban_Game ( int level ) {
 	
 	bool win = false;
 	
-	vector<int**> status;
 	
-	UpDate_New_Status(status);
+	gameStatus.UpDate_New_Status();
 	
 	
 	Draw_Map();
-	Draw_Current_Status(status);
+	Draw_Current_Status();
 	SDL_RenderPresent(renderer);
 	
 	
@@ -446,7 +470,7 @@ void Sokoban_Game ( int level ) {
 						}
 						else if( Click(2, 4, e.button.x, e.button.y) ){
 							Draw_Map();
-							Draw_Current_Status(status);
+							Draw_Current_Status();
 							SDL_RenderPresent(renderer);
 							break;
 						}
@@ -468,13 +492,13 @@ void Sokoban_Game ( int level ) {
 		
 		if( e.key.keysym.sym == SDLK_z ) {
 			
-			if( status.size() == 1 ) continue;
+			if( gameStatus.Get_NumOfSteps() == 0 ) continue;
 			
-			Undo(status);
+			gameStatus.Undo();
 			
-			Delete_Current_Status(status);
+			gameStatus.Delete_Current_Status();
 			
-			Draw_Current_Status(status);
+			Draw_Current_Status();
 		 		
 			SDL_RenderPresent(renderer);
 			
@@ -485,10 +509,10 @@ void Sokoban_Game ( int level ) {
 		
 		if( !new_status ) continue;
 		
-		UpDate_New_Status(status);
+		gameStatus.UpDate_New_Status();
 		
 		
-		Draw_Current_Status(status);
+		Draw_Current_Status();
 		 		
 		SDL_RenderPresent(renderer);
 		
@@ -497,16 +521,18 @@ void Sokoban_Game ( int level ) {
 		if( win ) break;
 	}
 	
-	if( win ) You_Win(renderer, status.size() - 1, level);
+	if( win ) You_Win(renderer, gameStatus.Get_NumOfSteps(), level);
 	
-	Delete_All_Status(status);
+	gameStatus.Clear();
 }
 
 void Draw_Menu () {
 	refresh(renderer);
 	
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+	
 	Draw_Continue(renderer, 2, 4);
+	SDL_SetRenderDrawColor(renderer, 127, 127, 0, 0);
+	Draw_Filled_Square(renderer, 3, 5);
 	
 	Draw_Arrow(renderer, 4, 4);
 	
@@ -530,6 +556,34 @@ void Draw_Level_Selection () {
 	Draw_Number_4(renderer, 5, 6);
 	
 	Draw_Arrow (renderer, 1, 1);
+}
+
+void Draw_Score (SDL_Renderer* renderer, int i, int j, int level);
+
+void Draw_Title(SDL_Renderer* renderer, int level);
+
+void Draw_Best_Score(int level) {
+	refresh(renderer);
+	
+	Draw_Score(renderer, 3, 4, level);
+	
+	Draw_Title(renderer, level);
+	
+	Draw_Arrow (renderer, 1, 1);
+	
+	SDL_RenderPresent(renderer);
+	
+	while( SDL_WaitEvent(&e) ) {
+		if( e.type == SDL_QUIT ) exit(0);
+		
+		else if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
+			if( Click(1, 1, e.button.x, e.button.y) ) {
+				break;
+			}
+			
+		}
+	}
+	
 }
 
 void run () {
@@ -587,6 +641,47 @@ void run () {
 				else if( Click(4, 4, e.button.x, e.button.y) ) {
 					quitSDL(window, renderer);
 					return;
+				}
+				
+				else if( Click(3, 5, e.button.x, e.button.y)) {
+					Draw_Level_Selection();
+					SDL_RenderPresent(renderer);
+					
+					while ( SDL_WaitEvent(&e) ) {
+						
+						if( e.type == SDL_QUIT ) exit(0);
+						
+						
+						if( e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT ) {
+							if( Click(2, 3, e.button.x, e.button.y) ) {
+								refresh(renderer);
+								Draw_Best_Score(1);
+								
+							}
+							else if( Click(2, 6, e.button.x, e.button.y) ) {
+								refresh(renderer);
+								Draw_Best_Score(2);
+								
+							}
+							else if( Click(5, 3, e.button.x, e.button.y) ) {
+								refresh(renderer);
+								Draw_Best_Score(3);
+								
+							}
+							else if( Click(5, 6, e.button.x, e.button.y) ) {
+								refresh(renderer);
+								Draw_Best_Score(4);
+								
+							}
+							
+							else if( Click(1, 1, e.button.x, e.button.y) ) {
+								break;
+							}
+							
+						}
+						Draw_Level_Selection();
+						SDL_RenderPresent(renderer);
+					}
 				}
 				
 				break;
